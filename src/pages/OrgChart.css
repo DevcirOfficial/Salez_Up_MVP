@@ -1,0 +1,181 @@
+/* OrgChart.css */
+
+.tree-container {
+  display: flex;
+  justify-content: center;
+}
+
+.tree {
+  font-family: Arial, sans-serif;
+}
+
+.family {
+  position: relative;
+}
+
+.parent {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+.person {
+  padding: 10px;
+  min-width: 150px;
+  background-color: #FFFFFF;
+  display: inline-block;
+}
+
+.person .name {
+  text-align: center;
+  font-size: 16px;
+}
+
+.avatar {
+  width: 120px;
+  height: 82px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+/* Other existing styles */
+.parentDrop,
+.spouseDrop,
+.childDrop {
+  width: auto;
+  min-width: 80px;
+  min-height: 80px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  padding-top: 15px;
+}
+
+.parentDrop>span,
+.spouseDrop>span,
+.childDrop>span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-weight: bold;
+}
+
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+}
+
+.tree li {
+  display: table-cell;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 5px 0 5px;
+}
+
+.tree li::before,
+.tree li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid #71C8BA;
+  width: 50%;
+  height: 20px;
+}
+
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before {
+  display: none;
+}
+
+.tree li:only-child {
+  padding-top: 0;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+
+.tree li:last-child::before {
+  border-right: 2px solid #71C8BA;
+  border-radius: 0 5px 0 0;
+}
+
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+}
+
+.tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+  width: 0;
+  height: 20px;
+}
+
+
+.tree li .parent::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+  border-right: 2px solid #71C8BA;
+  width: 3px;
+  height: 10px;
+}
+
+.tree li .family {
+  position: relative;
+}
+
+.tree li .family .spouse {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 95px;
+}
+
+.tree li .family .spouse::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  border-top: 2px solid #71C8BA;
+  border-bottom: 2px solid #71C8BA;
+  width: 10px;
+  height: 3px;
+}
+
+.tree li .child:hover,
+.tree li .child:hover+.parent .person,
+.tree li .parent .person:hover,
+.tree li .child:hover+.parent .person+ul li .child,
+.tree li .parent .person:hover+ul li .child,
+.tree li .child:hover+.parent .person+ul li .parent .person,
+.tree li .parent .person:hover+ul li .parent .person {
+  /* background: #c8e4f8;
+  color: #000; */
+}
+/* 
+.tree li .child:hover+.parent::before,
+.tree li .child:hover+.parent .person+ul li::after,
+.tree li .parent .person:hover+ul li::after,
+.tree li .child:hover+.parent .person+ul li::before,
+.tree li .parent .person:hover+ul li::before,
+.tree li .child:hover+.parent .person+ul::before,
+.tree li .parent .person:hover+ul::before,
+.tree li .child:hover+.parent .person+ul ul::before,
+.tree li .parent .person:hover+ul ul::before {
+  border-color: #94a0b4;
+} */

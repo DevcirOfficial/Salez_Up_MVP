@@ -1,0 +1,8 @@
+.eye_btn{
+    left:unset;
+    top:unset;
+    background-color: transparent;
+    position: absolute;
+    bottom: 12px;
+    right: 10px;
+}

@@ -1,0 +1,221 @@
+.custom-tree-container {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-tree {
+  font-family: Arial, sans-serif;
+}
+
+.custom-family {
+  position: relative;
+}
+
+.custom-parent {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+.custom-person {
+  padding: 10px;
+  min-width: 150px;
+  background-color: #FFFFFF;
+  display: inline-block;
+}
+
+.custom-person .custom-name {
+  text-align: center;
+  font-size: 16px;
+}
+
+.custom-avatar {
+  width: 120px;
+  height: 82px;
+  border-radius: 100%;
+  object-fit: cover;
+  margin-top: 2px;
+}
+
+.custom-vertical-line {
+  width: 2px;
+  height: 30px;
+  margin: 0 auto;  
+}
+
+.custom-category-name {
+  margin-bottom: 16px;
+}
+
+.custom-parentDrop,
+.custom-spouseDrop,
+.custom-childDrop {
+  width: auto;
+  min-width: 80px;
+  min-height: 80px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  padding-top: 15px;
+}
+
+.custom-parentDrop>span,
+.custom-spouseDrop>span,
+.custom-childDrop>span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-weight: bold;
+}
+
+.custom-tree ul {
+  padding-top: 20px;
+  position: relative;
+  transition: all 0.5s;
+}
+
+.custom-tree li {
+  display: table-cell;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 0 50px 0 50px;
+  margin-top: 100px;
+}
+
+.custom-tree li::before,
+.custom-tree li::after {
+  content: '';
+  position: absolute;
+  top: 120px;
+  right: 50%;
+  border-top: 2px solid #71C8BA;
+  width: 50%;
+  height: 34px;
+}
+
+.custom-tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+  height: 34px;
+}
+
+.custom-tree li:only-child::after,
+.custom-tree li:only-child::before {
+  display: none;
+}
+
+.custom-tree li:only-child {
+  padding-top: 0;
+}
+
+.custom-tree li:first-child::before,
+.custom-tree li:last-child::after {
+  border: 0 none;
+}
+
+.custom-tree li:last-child::before {
+  border-right: 2px solid #71C8BA;
+  border-radius: 0 5px 0 0;
+}
+
+.custom-tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+}
+
+.custom-tree ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+  width: 0;
+  height: 140px;
+}
+
+.custom-circle {
+  background-color: green;
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  text-align: center;
+}
+
+.custom-agents-container {
+  display: flex;
+  margin-left: 20px;
+  flex-wrap: wrap;
+  gap: 1px;
+  max-width: 140px;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.custom-agent-item {
+  flex: 1 1 calc(50% - 16px);
+  max-width: calc(50% - 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-tree li .custom-parent::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  border-left: 2px solid #71C8BA;
+  border-right: 2px solid #71C8BA;
+  width: 3px;
+  height: 10px;
+}
+
+.custom-tree li .custom-family {
+  position: relative;
+}
+
+.custom-tree li .custom-family .custom-spouse {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 95px;
+}
+
+.custom-tree li .custom-family .custom-spouse::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  border-top: 2px solid #71C8BA;
+  border-bottom: 2px solid #71C8BA;
+  width: 10px;
+  height: 3px;
+}
+
+.custom-tree li .custom-child:hover,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person,
+.custom-tree li .custom-parent .custom-person:hover,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul li .custom-child,
+.custom-tree li .custom-parent .custom-person:hover+ul li .custom-child,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul li .custom-parent .custom-person,
+.custom-tree li .custom-parent .custom-person:hover+ul li .custom-parent .custom-person {
+}
+
+.custom-tree li .custom-child:hover+.custom-parent::before,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul li::after,
+.custom-tree li .custom-parent .custom-person:hover+ul li::after,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul li::before,
+.custom-tree li .custom-parent .custom-person:hover+ul li::before,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul::before,
+.custom-tree li .custom-parent .custom-person:hover+ul::before,
+.custom-tree li .custom-child:hover+.custom-parent .custom-person+ul ul::before,
+.custom-tree li .custom-parent .custom-person:hover+ul ul::before {
+  border-color: #94a0b4;
+}

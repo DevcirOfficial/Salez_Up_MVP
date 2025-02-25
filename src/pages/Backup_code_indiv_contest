@@ -1,0 +1,750 @@
+backup code of voucher images div 
+
+              <div className='grid grid-cols-6 gap-x-[30px] gap-y-12 bg-pink-200'>
+                {vouchers.map((voucher) => (
+                  <div key={voucher.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={voucher.voucher_image}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                ${selectedVouchers.includes(voucher.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedVouchers.includes(voucher.name)
+                          ? selectedVouchers.filter(v => v != voucher.name)
+                          : [...selectedVouchers, voucher.name];
+
+                        setSelectedVouchers(updatedSelection);
+                        console.log(`Voucher Name: ${voucher.name}, Status: ${voucher.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+ _______________________________________________________________________________
+
+ backup code of food div
+
+               <div className='grid grid-cols-6 gap-x-[30px] gap-y-12'>
+                {food.map((food) => (
+                  <div key={food.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={food.food_image}
+                      alt={food.name}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                ${selectedFoods.includes(food.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedFoods.includes(food.name)
+                          ? selectedFoods.filter(v => v != food.name)
+                          : [...selectedFoods, food.name];
+
+                        setSelectedFoods(updatedSelection);
+                        console.log(`Food Name: ${food.name}, Status: ${food.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+_______________________________________________________________________________________       
+
+
+backup code of exp div 
+
+     <div className='grid grid-cols-6 gap-x-[30px] gap-y-12'>
+                {exp.map((exp) => (
+                  <div key={exp.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={exp.experience_image}
+                      alt={exp.name}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                                                ${selectedExperiences.includes(exp.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedExperiences.includes(exp.name)
+                          ? selectedExperiences.filter(v => v != exp.name)
+                          : [...selectedExperiences, exp.name];
+
+                        setSelectedExperiences(updatedSelection);
+                        console.log(`Experience Name: ${exp.name}, Status: ${exp.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+_______________________________________________________________________________________
+
+
+
+// backup of select agents div of team vs team:
+
+<div className='flex flex-col w-full gap-6 p-8 pb-12 card  ml-[-30px] bg-pink-200'>
+<h1 className='text-3xl font-medium text-gray-700'>Select Agents</h1>
+<div className="flex flex-wrap gap-2">
+    {teams.map((team, index) => (
+      <button
+        key={index}
+        onClick={() => 
+          {setSelectedTeam1(team)                                       
+          } 
+         }
+        className={`px-4 py-2 rounded-lg text-sm ${selectedTeam1 == team ? 'bg-themeGreen font-[500] text-white' : 'bg-[#F8FDFC] text-dGreen font-[400]'}`}
+      >
+        {team}
+      </button>
+    ))}
+  </div>
+  <div className='flex items-center justify-between mb-8 '>
+    <TeamArea
+      agents={leftTeam}
+      teamName={leftTeamName}
+      onDrop={handleDropLeftTeam}
+      oppositeTeam={rightTeam}
+      setTeamName={setLeftTeamName}
+      onAgentRemove={(agent) => removeAgentFromTeam(agent, setLeftTeam, setLeftTeamIds)}
+    />
+    <div className='text-4xl font-bold text-gray-700'>VS</div>
+    <TeamArea
+      agents={rightTeam}
+      teamName={rightTeamName}
+      onDrop={handleDropRightTeam}
+      oppositeTeam={leftTeam}
+      setTeamName={setRightTeamName}
+      onAgentRemove={(agent) => removeAgentFromTeam(agent, setRightTeam, setRightTeamIds)}
+    />
+  </div>
+  {error && <p className="text-red-500">{error}</p>}
+  <div className='p-6 bg-white rounded-lg'>
+    <h2 className='mb-4 text-2xl font-bold text-center text-gray-700'>Drag and Drop to Team</h2>
+    <div className='flex flex-wrap '>
+      {filteredAgents.map((agent, index) => (
+        <Agent key={index} agent={agent} onDoubleClick={() => { }} />
+      ))}
+    </div>
+  </div>
+<button
+className="px-6 py-4 font-bold w-[214px] mr-[30px] rounded-lg bg-themeGreen text-white mt-8"
+onClick={handleSubmit}
+disabled={!isSubmitEnabled()}
+>
+Submit
+</button>
+</div>
+
+
+
+---------------------------------------------------------------------------
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useScrollContext } from "../contexts/scrollContext";
+import Select from "react-select";
+
+const api = axios.create({
+  baseURL: 'https://crmapi.devcir.co/api'
+});
+
+api.interceptors.response.use(undefined, async (error) => {
+  if (error.response?.status === 429) {
+    const retryAfter = error.response.headers['retry-after'] || 5;
+    await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+    return api.request(error.config);
+  }
+  return Promise.reject(error);
+});
+
+const My_Campaigns = ({ set, setter }) => {
+  const fillAllCredentials = () =>
+    toast.warn("Fill all the fields", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const successfulMsg = () =>
+    toast.success("Successfully created", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const [campaignName, setCampaignName] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePath, setImagePath] = useState("");
+  const [imageName, setImageName] = useState("");
+  const [managerName, setManagerName] = useState("");
+  const [juniorDeptHeadOptions, setJuniorDeptHeadOptions] = useState([]);
+  const [deptHeadOptions, setDeptHeadOptions] = useState([]);
+  const [selectedDeptHead, setSelectedDeptHead] = useState(null);
+  const [selectedJuniorDeptHead, setSelectedJuniorDeptHead] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState([]);
+  const [teamOptions, setTeamOptions] = useState([]);
+  const [team_And_Teamleader, setTeam_And_Teamleader] = useState([]);
+  const [deptHeadId, setDeptHeadId] = useState("");
+  const [departmentHeads, setDepartmentHeads] = useState([]);
+  const [showDeptHead, setShowDeptHead] = useState(false);
+  const [startDate, setStartDate] = useState("");
+
+  const [allDeptHeads, setAllDeptHeads] = useState([]);
+  const [availableDepartmentHeads, setAvailableDepartmentHeads] = useState([]);
+
+  useEffect(() => {
+    const today = new Date().toLocaleDateString("en-CA");
+    setStartDate(today);
+  }, []);
+
+
+
+  useEffect(() => {
+    const userFName = localStorage.getItem("userFName");
+
+    if (userFName) {
+      setManagerName(userFName);
+    }
+  }, []);
+
+
+
+  const fetchWithRetry = async (endpoint, options = {}) => {
+    try {
+      const response = await api.get(endpoint, {
+        ...options,
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 429) {
+        toast.warning("Too many requests. Please wait a moment...");
+      }
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchAvailableDepartmentHeads = async () => {
+      try {
+        const [juniorResponse, departmentResponse, assignmentsResponse] = await Promise.all([
+          fetchWithRetry('/junior-department-heads'),
+          fetchWithRetry('/department-heads'),
+          fetchWithRetry('/campaigns_and_teams')
+        ]);
+
+        const filtered = juniorResponse.filter(
+          team => team.manager_id == localStorage.getItem("id")
+        );
+        const filteredHeads = departmentResponse.filter(
+          team => team.manager_id == localStorage.getItem("id")
+        );
+
+        const assignedJuniorIds = assignmentsResponse.map(
+          assignment => assignment.junior_department_head_id
+        );
+        const assignedDeptHeadIds = assignmentsResponse.map(
+          assignment => assignment.department_head_id
+        );
+
+        const availableJuniors = filtered.filter(
+          deptHead => !assignedJuniorIds.includes(deptHead.id)
+        );
+        const availableSeniors = filteredHeads.filter(
+          deptHead => assignedDeptHeadIds.includes(deptHead.id)
+        );
+
+        setJuniorDeptHeadOptions(
+          availableJuniors.map(deptHead => ({
+            value: deptHead.id,
+            label: deptHead.first_name,
+            Dept_Head_id: deptHead.Dept_Head_id,
+          }))
+        );
+
+        if (availableJuniors.length === 0) {
+          setDeptHeadOptions(
+            filteredHeads.map(head => ({
+              value: head.id,
+              label: head.first_name,
+            }))
+          );
+        }
+
+        setAvailableDepartmentHeads(availableSeniors);
+        setAllDeptHeads(filteredHeads);
+      } catch (error) {
+        console.error("Error fetching department heads:", error);
+        toast.error("Error loading department heads. Please try again later.");
+      }
+    };
+
+    fetchAvailableDepartmentHeads();
+  }, []);
+
+  useEffect(() => {
+    const fetchTeamsAndAssignments = async () => {
+      const userId = localStorage.getItem("id");
+      try {
+        const [teamsResponse, assignmentsResponse] = await Promise.all([
+          fetchWithRetry('/teams'),
+          fetchWithRetry('/campaigns_and_teams')
+        ]);
+
+        const managerTeams = teamsResponse.filter(
+          team => team.manager_id == parseInt(userId)
+        );
+        const assignedTeamIds = assignmentsResponse.map(
+          assignment => assignment.team_id
+        );
+
+        const availableTeams = managerTeams.filter(
+          team => !assignedTeamIds.includes(team.id)
+        );
+
+        setTeamOptions(
+          availableTeams.map(team => ({
+            value: team.id,
+            label: team.team_name,
+          }))
+        );
+
+        setTeam_And_Teamleader(managerTeams);
+      } catch (error) {
+        console.error("Error fetching teams:", error);
+        toast.error("Error loading teams. Please try again later.");
+      }
+    };
+
+    fetchTeamsAndAssignments();
+  }, []);
+
+
+
+  const handleTeamChange = (selectedOptions) => {
+    const updatedTeamIds = selectedOptions.map((option) => option.value);
+    const newlyAddedTeams = updatedTeamIds.filter(
+      (teamId) => !selectedTeam.includes(teamId)
+    );
+    const conflictingTeams = newlyAddedTeams.filter((teamId) => {
+      const team = team_And_Teamleader.find(
+        (teamLeaderEntry) => teamLeaderEntry.team_id == teamId
+      );
+      return team && team.team_leader_id;
+    });
+    if (conflictingTeams.length > 0) {
+      const confirmMessage =
+        "The selected team(s) already have a team leader. Do you want to proceed with assigning a new team leader?";
+      const userConfirmed = window.confirm(confirmMessage);
+      if (!userConfirmed) {
+        return;
+      }
+    }
+    setSelectedTeam(updatedTeamIds);
+  };
+
+  // const handleDeptHeadChange = (selectedOption) => {
+  //   if (juniorDeptHeadOptions.length > 0) {
+  //     setSelectedDeptHead(selectedOption?.Dept_Head_id);
+  //     setSelectedJuniorDeptHead(selectedOption);
+
+  //     if (selectedOption) {
+  //       const matchedDeptHead = allDeptHeads.find(
+  //         (deptHead) => deptHead.id == selectedOption.Dept_Head_id
+  //       );
+        
+  //       console.log("1st Match", matchedDeptHead)
+        
+        
+  //       const matchedInAllDeptHeads = availableDepartmentHeads.find(
+  //         (deptHead) => deptHead.id == selectedOption.Dept_Head_id
+  //       );
+
+  //       console.log("2nd Match", availableDepartmentHeads)
+        
+  //       if (matchedDeptHead && matchedInAllDeptHeads) {
+  //         // If found in both, display warning
+  //         toast.warn(
+  //           "Selected department head is already registered in a campaign."
+  //         );
+  //         setDeptHeadId(matchedDeptHead.first_name);
+  //       } else {
+  //         // If only in availableDepartmentHeads, set the department head without warning
+  //         setDeptHeadId(matchedDeptHead.first_name);
+  //       }
+  //     }
+  //     setShowDeptHead(selectedOption ? true : false);
+  //   } else {
+  //     setSelectedDeptHead(selectedOption.value);
+  //   }
+  // };
+
+
+  const handleDeptHeadChange = (selectedOption) => {
+    if (juniorDeptHeadOptions.length > 0) {
+      // Check if the selected junior department head has a department head assigned
+      if (selectedOption && !selectedOption.Dept_Head_id) {
+        toast.error("No head of department assigned to this junior department head");
+        return;
+      }
+  
+      setSelectedDeptHead(selectedOption?.Dept_Head_id);
+      setSelectedJuniorDeptHead(selectedOption);
+  
+      if (selectedOption) {
+        const matchedDeptHead = allDeptHeads.find(
+          (deptHead) => deptHead.id == selectedOption.Dept_Head_id
+        );
+        
+        const matchedInAllDeptHeads = availableDepartmentHeads.find(
+          (deptHead) => deptHead.id == selectedOption.Dept_Head_id
+        );
+        
+        if (matchedDeptHead && matchedInAllDeptHeads) {
+          toast.warn(
+            "Selected department head is already registered in a campaign."
+          );
+          setDeptHeadId(matchedDeptHead.first_name);
+        } else {
+          setDeptHeadId(matchedDeptHead.first_name);
+        }
+      }
+      setShowDeptHead(selectedOption ? true : false);
+    } else {
+      setSelectedDeptHead(selectedOption.value);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const validImageTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+
+      if (validImageTypes.includes(file.type)) {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          const base64String = reader.result;
+          setImageFile(file);
+          setImagePath(base64String);
+          setImageName(file.name);
+          console.log("Uploaded Image:", file.name);
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        alert("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+        e.target.value = null; // Reset the input
+      }
+    }
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!campaignName || !startDate || selectedTeam.length === 0) {
+      toast.warn("Please fill all required fields");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("campaign_name", campaignName);
+    formData.append("start_date", startDate);
+    formData.append("manager_id", localStorage.getItem("id"));
+    formData.append("end_date", "2024-12-31");
+    if (imageFile) {
+      formData.append("image_path", imageFile);
+    }
+
+    try {
+      const createResponse = await api.post('/campaigns', formData);
+      const newCampaignId = createResponse.data.id;
+
+      // Create campaign team associations with sequential processing
+      for (const teamId of selectedTeam) {
+        const campaignTeamData = {
+          campaign_id: newCampaignId,
+          team_id: teamId,
+          junior_department_head_id: parseInt(selectedJuniorDeptHead?.value),
+          department_head_id: parseInt(selectedDeptHead),
+        };
+
+        await api.post('/campaigns_and_teams', campaignTeamData);
+      }
+
+      toast.success("Campaign created successfully");
+      // Reset form
+      setCampaignName("");
+      setSelectedTeam([]);
+      setSelectedDeptHead(null);
+      setImageFile(null);
+      setImagePath("");
+      
+      // Optional: Reload page after short delay
+      setTimeout(() => window.location.reload(), 1500);
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      if (error.response?.status === 429) {
+        toast.error("Too many requests. Please wait a moment before trying again.");
+      } else {
+        toast.error("Error creating campaign. Please try again.");
+      }
+    }
+  };
+
+  return (
+    <form>
+      <div className="w-full p-8 flex flex-col gap-10 card pb-12">
+        <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
+          Add New Campaign
+        </h1>
+        <div className="flex flex-wrap justify-between gap-1">
+          <div className="flex flex-col  gap-3 w-[161px]">
+            <p className="font-[400] text-[14px] text-dGreen">Campaign Logo</p>
+            <label class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+              <div className=" overflow-hidden border-black rounded-xl block w-32 h-32 items-center justify-center">
+                {imagePath ? (
+                  <img
+                    src="/images/image.jpg"
+                    alt="Selected"
+                    className="w-32 h-32 m-auto"
+                  />
+                ) : (
+                  <div className=" ">
+                    <img
+                      src="/images/image.jpg"
+                      className="w-32 h-32 m-auto shadow cursor-pointer "
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* </label> */}
+
+              <input
+                type="file"
+                id="fileInput"
+                onChange={handleImageChange}
+                className="hidden"
+                accept="image/*"
+              />
+
+              {imagePath && <p></p>}
+
+              {/* </div> */}
+
+              <input type="file" class="opacity-0" />
+            </label>
+          </div>
+
+
+          
+          <div className="flex flex-col gap-3 w-[269px]">
+            <label
+              htmlFor="name"
+              className="font-[400] text-[14px] text-dGreen"
+            >
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={campaignName}
+              onChange={(e) => setCampaignName(e.target.value)}
+              className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+              placeholder="Enter name"
+            />
+
+            <label className="block text-themeGray text-sm font-[500] mb-1">
+              Select Teams
+            </label>
+            {teamOptions.length > 0 ? (
+              <Select
+                isMulti
+                value={teamOptions.filter((teamOption) =>
+                  selectedTeam.includes(teamOption.value)
+                )}
+                onChange={handleTeamChange}
+                options={teamOptions}
+              />
+            ) : (
+              <div className="text-gray-500 text-sm p-2 bg-lGreen rounded">
+                No available teams to assign
+              </div>
+            )}
+
+            {juniorDeptHeadOptions.length > 0 ? (
+              <div className="flex flex-col gap-3 w-[269px]">
+                <label
+                  htmlFor="selectTeam"
+                  className="font-[400] text-[14px] text-dGreen"
+                >
+                  Select Junior Department Head
+                </label>
+                <Select
+                  value={selectedDeptHead ? selectedDeptHead.label : " "}
+                  onChange={handleDeptHeadChange}
+                  options={juniorDeptHeadOptions}
+                  placeholder="JDH"
+                />
+              </div>
+            ) : deptHeadOptions.length > 0 ? (
+              <div className="flex flex-col gap-3 w-[269px]">
+                <label
+                  htmlFor="selectTeam"
+                  className="font-[400] text-[14px] text-dGreen"
+                >
+                  Department Head
+                </label>
+                <Select
+                  value={selectedDeptHead ? selectedDeptHead.label : " "}
+                  onChange={handleDeptHeadChange}
+                  options={deptHeadOptions}
+                  placeholder="Select Department Head"
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="flex flex-col gap-3 w-[269px]">
+            <label
+              htmlFor="selectManager"
+              className="font-[400] text-[14px] text-dGreen"
+            >
+              Manager
+            </label>
+            <input
+              type="text"
+              id="name"
+              readOnly
+              value={managerName}
+              className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+            />
+
+            <label
+              htmlFor="date"
+              className="font-[400] text-[14px] text-dGreen"
+            >
+              Start Date
+            </label>
+            <div className="relative custom-date-input">
+              <img
+                src="/icons/calendarIcon.png"
+                alt=""
+                className="absolute w-[18px] h-[17px] top-[14px] right-[9px]"
+              />
+              <input
+                type="date"
+                id="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                min={startDate}
+                className="date-input w-full text-[#8fa59c]  bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
+              />
+            </div>
+
+            {showDeptHead && (
+              <div>
+                <label
+                  htmlFor="deptHead"
+                  className="font-[400] text-[14px] text-dGreen"
+                >
+                  Department Head
+                </label>
+                <input
+                  id="deptHead"
+                  value={deptHeadId}
+                  readOnly
+                  className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* <div className="flex flex-col gap-3 w-[161px]">
+            <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
+            <div class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+              {imagePath ? (
+                <img
+                  src={imagePath}
+                  alt="Selected"
+                  className="w-full h-full object-cover "
+                />
+              ) : (
+                
+                <img className="w-42 h-42 m-auto rounded-full shadow cursor-pointer " />
+              )}
+            </div>
+          </div> */}
+
+<div className="flex flex-col gap-3 w-[161px]">
+  <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
+  <div className="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+    {imagePath ? (
+      <img
+        src={imagePath}
+        alt="Selected"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <p className="font-[400] text-[14px] text-dGreen">No image uploaded</p>
+    )}
+  </div>
+</div>
+
+
+        </div>
+        <div className="flex justify-end w-full">
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="bg-themeGreen rounded-[10px] px-5 py-1 text-[16px] drop-shadow-[0_8px_8px_rgba(64,144,132,0.2)] font-[700]"
+          >
+            Add Campaign
+          </button>
+        </div>
+      </div>
+      {/* <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      /> */}
+    </form>
+  );
+};
+
+export default My_Campaigns;

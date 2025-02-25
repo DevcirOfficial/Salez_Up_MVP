@@ -1,0 +1,115 @@
+{
+    "id": 37,
+    "regularKpiCount": 11,
+    "customKpiCount": 0,
+    "TotalCount": 11,
+    "kpiData": [
+      {
+        "kpi_Name_ID": "1",
+        "kpi_Name": "Average Monthy Revenue",
+        "target": "2500",
+        "weighting": "1",
+        "opportunity": 1.11,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "2",
+        "kpi_Name": "Total Revenue",
+        "target": "40000",
+        "weighting": "22",
+        "opportunity": 24.42,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "3",
+        "kpi_Name": "Call volume",
+        "target": "30000",
+        "weighting": "3",
+        "opportunity": 3.33,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "4",
+        "kpi_Name": "Sales Volume",
+        "target": "1000",
+        "weighting": "4",
+        "opportunity": 4.44,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "5",
+        "kpi_Name": "Conversion",
+        "target": "12",
+        "weighting": "12",
+        "opportunity": 13.32,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "6",
+        "kpi_Name": "Average handling time",
+        "target": "23",
+        "weighting": "2",
+        "opportunity": 2.22,
+        "gatekeeper": "50%",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "7",
+        "kpi_Name": "Attachment rate product 1",
+        "target": "6",
+        "weighting": "6",
+        "opportunity": 6.66,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "8",
+        "kpi_Name": "Attachment rate product 2",
+        "target": "8",
+        "weighting": "8",
+        "opportunity": 8.88,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "9",
+        "kpi_Name": "Attachment rate product 3\r\n",
+        "target": "9",
+        "weighting": "9",
+        "opportunity": 9.99,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "10",
+        "kpi_Name": "Attachment rate product 4",
+        "target": "10",
+        "weighting": "10",
+        "opportunity": 11.100000000000001,
+        "gatekeeper": "",
+        "team_id": 37
+      },
+      {
+        "kpi_Name_ID": "11",
+        "kpi_Name": "QA",
+        "target": "11",
+        "weighting": "11",
+        "opportunity": 12.21,
+        "gatekeeper": "",
+        "team_id": 37
+      }
+    ],
+    "customKpiData": [],
+    "teamInfo": {
+      "month": "January",
+      "frequency": "Monthly",
+      "currency": "$",
+      "opportunity": "100"
+    },
+    "sumOfWeights": 88
+  }
