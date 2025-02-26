@@ -303,7 +303,7 @@ const Intro_Teamleader = () => {
         </div>
 
         {/* Team Members Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 md:w-[40%] md:mx-auto md:-mt-5">
           {teamData?.team.map((member, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className="relative mb-2">
