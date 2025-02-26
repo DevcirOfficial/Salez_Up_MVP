@@ -37,7 +37,7 @@ const Actual_page = () => {
                 
                 return { dayName, values: processedValues };
             });
-    
+            console.log("Datattttttttttttttttttt", extractedData)
             localStorage.setItem('tableData1', JSON.stringify(extractedData));
             setTableData(extractedData);
         }

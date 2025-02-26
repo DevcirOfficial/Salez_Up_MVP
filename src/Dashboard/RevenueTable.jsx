@@ -70,7 +70,8 @@ const RevenueTable = ( barIndex ) => {
         const kpiData = JSON.parse(agent.kpi_data);
         const target = kpiData.kpiData[barIndex.barIndex].target;
         console.log("Actual Value:  ", aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex])
-        const actualValue = aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex] || 1;
+        const actualValue = aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex] || 1;  
+        console.log("asdqewqrt:  ", aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex])
         const targetPercentage = (actualValue / target) * 100;
 
         console.log("Target Value:  ", target)

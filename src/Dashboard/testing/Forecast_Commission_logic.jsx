@@ -49,7 +49,7 @@ const Forecast_Commission_logic = (barIndex) => {
 
   const months = {
     January: 21,
-    February: 19,
+    February: 25,
     March: 21,
     April: 22,
     May: 21,

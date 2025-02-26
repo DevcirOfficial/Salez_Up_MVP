@@ -12,17 +12,19 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PerformanceTable = () => {
     const [performanceData, setPerformanceData] = useState([]);
-    const [localStorageData, setLocalStorageData] = useState(JSON.parse(localStorage.getItem('tableData1')));
+    const [localStorageData, setLocalStorageData] = useState();
     const [currentDataIndex, setCurrentDataIndex] = useState(0);
     const [view, setView] = useState('all');
     const [currentPage, setCurrentPage] = useState(0);
 
 
     const fetchLocal = () => {
-        const extractedTableData = localStorage.getItem('tableData1');
+        const extractedTableData = localStorage.getItem('tableData');
         if (extractedTableData) {
             const parsedData = JSON.parse(extractedTableData);
-            setLocalStorageData(parsedData);
+            const agent = parsedData.find(data => data.agentName === localStorage.getItem('userFName'));
+            setLocalStorageData(agent.days);
+
         }
     };
 
@@ -31,8 +33,8 @@ const PerformanceTable = () => {
     useEffect(() => {
         fetchLocal();
         const handleStorageChange = (event) => {
-            if (event.key === 'tableData1') {
-                fetchLocal(); // Fetch updated data when localStorage changes
+            if (event.key === 'tableData') {
+                fetchLocal(); 
             }
         };
         window.addEventListener('storage', handleStorageChange);
@@ -46,6 +48,8 @@ const PerformanceTable = () => {
         const fetchSalesAgent = async () => {
             const id = localStorage.getItem('id');
             // fetchLocal()
+            // const agent = localStorageData.find(data => data.agentName === 'Sam Smith');
+            // console.log("Agent Name:", agent ? agent.days: "Agent not found");
             try {
                 const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/${id}`);
                 if (!agentsResponse.ok) {
@@ -100,7 +104,7 @@ const PerformanceTable = () => {
                     console.log("Error nhi hai data hi nhi hai")
                 }
             } catch (error) {
-                toast.error("Error Fetching Sales Agent Data")
+                // toast.error("Error Fetching Sales Agent Data")
             }
         }
         
@@ -258,7 +262,6 @@ const PerformanceTable = () => {
                                             <tbody>
                                                 {performanceData.length > 0 ? (
                                                     performanceData.map((row, index) => {
-                                                        // Calculate actual value based on KPI type
                                                         let actualValue = '-';
                                                         if (localStorageData.length > 0) {
                                                             if (row.kpi === 'Conversion') {
