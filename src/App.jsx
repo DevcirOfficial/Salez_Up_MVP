@@ -69,7 +69,7 @@ function App() {
             <Route path="/SeniorOpsManger_SignUp" element={<Senior_Ops_manager_SignUp />} />
             <Route path="/head_of_sales_sign-up" element={<Head_of_sales_SignUp />} />
             <Route path="/HeadofSales/:roleId" element={<Head_of_sales_SignIn />} />
-
+ 
             <Route path="/dashboard" element={<Dashboard_manager />} />
             <Route path="/admin_portal_dashboard" element={<DashboardLayout />} />
             <Route path="/dashboard_contest_forecast" element={<Dashboard_Contest_Forecast/>} />

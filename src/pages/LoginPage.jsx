@@ -78,7 +78,7 @@ const LoginPage = () => {
 
                         <div className="m-3">
                             <button onClick={() => {navigate('/TeamLeader/4q7Z1Y2f')}} title="Super Admin Panel"
-                                // href="https://salez-up-mvp.vercel.app/TeamLeader/4q7Z1Y2f" 
+                                // href="https://salez-up-mvp-one.vercel.app/TeamLeader/4q7Z1Y2f" 
                                 target='_blank'
                                 className="inline-flex items-center h-16 px-6 py-2 font-bold tracking-wide text-center text-[#269F8B] bg-white border-2 border-[#269F8B] rounded shadow-md md:w-56 hover:border-gray-600 hover:bg-[#269F8B] hover:text-white">
                                 <span className="mx-auto">Team Leader</span>
@@ -87,7 +87,7 @@ const LoginPage = () => {
 
                         <div className="m-3">
                             <button onClick={() => {navigate('/SalesAgent/x9y8z7g3')}} title="Super Admin Panel"
-                                // href="https://salez-up-mvp.vercel.app/SalesAgent/x9y8z7g3"
+                                // href="https://salez-up-mvp-one.vercel.app/SalesAgent/x9y8z7g3"
                                  target='_blank'
                                 className="inline-flex items-center h-16 px-6 py-2 font-bold tracking-wide text-center text-[#269F8B] bg-white border-2 border-[#269F8B] rounded shadow-md md:w-56 hover:border-gray-600 hover:bg-[#269F8B] hover:text-white">
                                 <span className="mx-auto">Sales Agent</span>
@@ -96,7 +96,7 @@ const LoginPage = () => {
 
                         <div className="m-3">
                             <button onClick={() => {navigate('/OpsManager_SignIn/vH0kx3Lq5JS8')}} title="Super Admin Panel"
-                                // href="https://salez-up-mvp.vercel.app/OpsManager_SignIn/vH0kx3Lq5JS8"
+                                // href="https://salez-up-mvp-one.vercel.app/OpsManager_SignIn/vH0kx3Lq5JS8"
                                  target='_blank'
                                 className="inline-flex items-center h-16 px-6 py-2 font-bold tracking-wide text-center text-[#269F8B] bg-white border-2 border-[#269F8B] rounded shadow-md md:w-56 hover:border-gray-600 hover:bg-[#269F8B] hover:text-white">
                                 <span className="mx-auto">Manager</span>

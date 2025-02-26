@@ -315,7 +315,7 @@ const AddNewAgent = ({ set, setter }) => {
       const payloadMail = {
         role: "Sales Agent",
         email: email,
-        link: `https://salez-up-mvp.vercel.app/SalesAgent/${link}`,
+        link: `https://salez-up-mvp-one.vercel.app/SalesAgent/${link}`,
         password: password,
       };
 

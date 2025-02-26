@@ -409,7 +409,7 @@ const Ops_Manager_SignUp = () => {
           const payloadMail = {
             role: "Ops Manager",
             email: email,
-            link: `https://salez-up-mvp.vercel.app/OpsManager_SignIn/${link}`,
+            link: `https://salez-up-mvp-one.vercel.app/OpsManager_SignIn/${link}`,
             password: password,
             managerId: managerSecretId,
           };

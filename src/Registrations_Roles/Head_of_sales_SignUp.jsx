@@ -235,7 +235,7 @@ const Head_of_sales_SignUp = () => {
           const payloadMail = {
             role: "Head Of Sales",
             email: email,
-            link: `https://salez-up-mvp.vercel.app/HeadofSales/${link}`,
+            link: `https://salez-up-mvp-one.vercel.app/HeadofSales/${link}`,
             password: password,
             managerId: managerId,
           };

@@ -267,7 +267,7 @@ const Senior_Ops_manager_SignUp = () => {
           const payloadMail = {
             role: "Senior Ops Manager",
             email: email,
-            link: `https://salez-up-mvp.vercel.app/SeniorOpsManager_SignIn/${link}`,
+            link: `https://salez-up-mvp-one.vercel.app/SeniorOpsManager_SignIn/${link}`,
             password: password,
             managerId: managerSecretId,
           };
