@@ -314,7 +314,9 @@ const Intro_Teamleader = () => {
                   // onError={handleImageError}
                 />
               </div>
-              <p className="text-red-500 text-sm text-center">{member.role}</p>
+              <p className="text-red-500 text-sm text-center">
+                  {member.role === 'Sales agent' ? 'Negotiator' : member.role}
+              </p>
               <p className="text-gray-700 text-sm text-center">{member.name}</p>
             </div>
           ))}

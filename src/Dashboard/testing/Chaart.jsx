@@ -48,7 +48,7 @@ const CustomBarLabel = ({ x, y, width, value }) => {
       paintOrder="stroke"
       filter="url(#shadow)"
     >
-      ${value}
+      £{value}
     </text>
   );
 };
@@ -155,7 +155,7 @@ const Chart = () => {
                 fontSize: 16,
                 fontWeight: 500
               }}
-              tickFormatter={(value) => `$${value}`}
+              tickFormatter={(value) => `£${value}`}
               domain={[0, 3000]}
               ticks={[0, 500, 1000, 1500, 2000, 2500, 3000]}
             />

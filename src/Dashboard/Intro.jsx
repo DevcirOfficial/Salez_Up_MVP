@@ -17,6 +17,7 @@ const Intro = () => {
   });
   const [image, setImage] = useState(null);
   const defaultImage = fallbackImage;
+  const [rank, setRank] = useState(0);
 
   useEffect(() => {
     const storedImage = localStorage.getItem("SalesAgent_Image");
@@ -82,6 +83,9 @@ const Intro = () => {
         monthStatsValue: '',
       });
     }
+
+    const rankValue = localStorage.getItem('Rank');
+    setRank(rankValue ? rankValue : 0);
   };
 
   useEffect(() => {
@@ -102,11 +106,11 @@ const Intro = () => {
 
   const stats = [
     { label: 'Points', value: `${data.points}`, icon: 'images/star.png', prefix: '' },
-    { label: 'Commission', value: `${commission}`, icon: 'images/bag.png', prefix: '$' },
-    { label: 'Contests', value: `${data.contests}`, icon: 'images/trophy.png', prefix: '$' },
-    { label: 'Rank', value: '4th', icon: 'images/prizee.png', prefix: '' },
+    { label: 'Commission', value: `${commission}`, icon: 'images/bag.png', prefix: '£' },
+    { label: 'Contests', value: `${data.contests}`, icon: 'images/trophy.png', prefix: '£' },
+    { label: 'Rank', value: `${rank}`, icon: 'images/prizee.png', prefix: '' },
     { label: 'Time', value: `${data.timeStatsValue}`, icon: 'images/time.png', suffix: 'years' },
-    { label: 'This Month', value: `${data.monthStatsValue}`, icon: 'images/bag.png', prefix: '$' },
+    { label: 'This Month', value: `${data.monthStatsValue}`, icon: 'images/bag.png', prefix: '£' },
   ];
 
   return (
@@ -147,7 +151,7 @@ const Intro = () => {
 
               {/* Profile Details */}
               <div className="flex flex-col items-center md:items-start md:ml-6">
-                <p className="text-gray-500 text-lg md:text-xl mb-2">Sales Agent</p>
+                <p className="text-gray-500 text-lg md:text-xl mb-2">Negotiator</p>
                 <h3 className="text-2xl md:text-3xl font-semibold text-gray-600">{fullName}</h3>
                 <button
                   className="mt-4 px-4 py-2 w-full md:w-2/3 rounded-xl text-white"

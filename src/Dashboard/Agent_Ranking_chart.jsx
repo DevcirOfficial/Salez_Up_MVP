@@ -89,7 +89,7 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
                 />
             </div>
             <p className="ml-2 text-[#009245]">
-                ${score < 1000 ? score : parseFloat(score / 1000).toFixed(2)}{score < 1000 ? '' : 'K'}
+                {score < 1000 ? score : parseFloat(score / 1000).toFixed(2)}{score < 1000 ? '' : 'K'}
             </p>
         </div>
     );
@@ -99,7 +99,7 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
             {/* Header Section */}
             <div className="flex items-center justify-between px-6">
                 {/* Heading */}
-                <h1 className=" text-xl text-[#009245]">Agent Ranking: Performance vs Actual</h1>
+                <h1 className=" text-xl text-[#009245]">Negotiator Ranking: Performance vs Actual</h1>
 
                 {/* Buttons */}
                 <div className="flex space-x-2 border rounded-2xl border-gray-300">
@@ -110,7 +110,7 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
                             className={`px-3 py-1 text-sm font-medium ${activeButton === button
                                 ? "text-[#269F8B] shadow-xl"
                                 : "text-[#ABABAB]"} ${index < buttons.length - 1 ? 'border-r' : ''}`}
-                        >
+                        > 
                             {button}
                         </button>
                     ))}

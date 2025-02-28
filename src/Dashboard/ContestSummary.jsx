@@ -141,20 +141,13 @@ const ContestSummary = () => {
     );
 
     const contestants = [
-        { name: 'Sarah Smith', level: 'Bronze', points: 200, money: 150, avatar: '/images/dashboard_img1.png', badgeColor: '/images/Badges/badge_bronze.png' },
-        { name: 'Anujaa Kumar', level: 'Platinum', points: 150, money: 100, avatar: '/images/dashboard_img2.png', badgeColor: '/images/Badges/badge_platinium.png' },
-        { name: 'Fernanda Celde', level: 'Unicorn', points: 75, money: 50, avatar: '/images/dashboard_img3.png', badgeColor: '/images/Badges/badge_unicorn.png' },
+        { name: 'Charlie Green', level: 'Bronze', points: 200, money: 150, avatar: '/images/agent2.png', badgeColor: '/images/Badges/badge_bronze.png' },
+        { name: 'Sam Smith', level: 'Platinum', points: 150, money: 100, avatar: '/images/agent1.png', badgeColor: '/images/Badges/badge_platinium.png' }
     ];
 
     const leaderboardData = [
-        { name: 'Sarah Smith', score: 200, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_unicorn.png' },
-        { name: 'Anujaa Kumar', score: 150, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_platinium.png' },
-        { name: 'Fernando Celde', score: 75, image: '/images/dashboard_img3.png', badge: '/images/Badges/badge_gold.png' },
-        { name: 'Pinaji Koarima', score: 74, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_silver.png' },
-        { name: 'Nava Yaghnel', score: 60, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_silver.png' },
-        { name: 'Monaki Nahans', score: 50, image: '/images/dashboard_img3.png', badge: '/images/Badges/badge_bronze.png' },
-        { name: 'Tians jdife', score: 35, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_bronze.png' },
-        { name: 'Nualiri sjahej', score: 20, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_bronze.png' },
+        { name: 'Charlie Green', score: 200, image: '/images/agent2.png', badge: '/images/Badges/badge_unicorn.png' },
+        { name: 'Sam Smith', score: 150, image: '/images/agent1.png', badge: '/images/Badges/badge_platinium.png' }
     ];
 
 
@@ -201,7 +194,7 @@ const ContestSummary = () => {
                             <div className="flex flex-row items-center pl-1 space-x-14 pr-1 ">
                                 <img src='/images/cashBag.png' alt='Medal' className="w-[33px] h-[41px]" />
                                 <p className="text-black text-[15px] font-normal">TOTAL PRIZES</p>
-                                <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">${summary.totalPrizes}</h2>
+                                <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">£{summary.totalPrizes}</h2>
                             </div>
                         </div>
 
@@ -213,7 +206,7 @@ const ContestSummary = () => {
                                 >
                                     <img src={prize.iconSrc} alt={prize.name} className="w-[39.2px] h-[30.36px]" />
                                     <p className="text-[#000000] text-[11.76px] font-normal">{prize.name}</p>
-                                    <h2 className="bg-white shadow-lg p-2 text-[#269F8B] text-lg font-semibold shadow-[#00A46C26]">${prize.amount}</h2>
+                                    <h2 className="bg-white shadow-lg p-2 text-[#269F8B] text-lg font-semibold shadow-[#00A46C26]">£{prize.amount}</h2>
                                 </div>
                             ))}
                         </div>
@@ -239,7 +232,7 @@ const ContestSummary = () => {
                                     </div>
                                     <div className='flex items-center mt-1'>
                                         <img src='images/bag.png' alt='Star' className='w-6 h-6 mt-1' />
-                                        <span className='ml-2 text-base text-[#6A6A6A] font-medium'>${contestant.money}</span>
+                                        <span className='ml-2 text-base text-[#6A6A6A] font-medium'>£{contestant.money}</span>
                                     </div>
                                 </div>
                             ))}

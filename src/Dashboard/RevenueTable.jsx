@@ -47,7 +47,7 @@ const RevenueTable = ( barIndex ) => {
   const [agents, setAgents] = useState([]);
   const [mainAgent, setMainAgent] = useState({})
 
-  const [currency, setCurrency] = useState('$')
+  const [currency, setCurrency] = useState('')
   const [aggregatedData, setAggregatedData] = useState(JSON.parse(localStorage.getItem('aggregated data')));
   const [agentPerformance, setAgentPerformance] = useState(JSON.parse(localStorage.getItem('tableData1')))
   const [forecastSummary, setForecastSummary] = useState();
@@ -165,14 +165,14 @@ const RevenueTable = ( barIndex ) => {
           <div className="flex justify-between items-center mb-10">
             <div className="text-2xl flex items-center">
               <img
-                src="/images/3campaign.png"
-                alt="3 Campaign"
-                className="w-8 h-8 mr-2"
+                src="/images/BeaufortGreen.png"
+                alt="image"
+                className="w-8 h-8 mr-2 rounded-full"
               />
               <p className="text-[#009245]">BEAUFORT GREEN</p>
             </div>
-            <div className="text-base text-[#009245]">
-              Agent Leaderboard
+            <div className="text-[12px] text-[#009245]">
+              Negotiator Leaderboard
             </div>
           </div>
           <div className="flex justify-around space-x-4">
@@ -209,7 +209,7 @@ const RevenueTable = ( barIndex ) => {
           <div className="flex justify-between items-center mb-3">
             <div>
               <p className="text-lg text-[#009245]">Forecast Commission</p>
-              <h2 className="text-xl font-bold text-green-600">${((forcast_Percentage/100)*forcast).toFixed(1)}</h2>
+              <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage/100)*forcast).toFixed(1)}</h2>
             </div>
             <div className="flex items-center text-[#009245] font-medium">
               <FaArrowUp className="mr-1" />

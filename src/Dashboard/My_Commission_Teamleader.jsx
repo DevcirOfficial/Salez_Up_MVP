@@ -9,7 +9,7 @@ import Coke from "/public/images/coke.png";
 const My_Commission_Teamleader = () => {
     const [activeButton, setActiveButton] = useState("Current Month");
     const [commission, setCommission] = useState('');
-    const [currency, setCurrency] = useState('$');
+    const [currency, setCurrency] = useState('£');
     const [allowedButton, setAllowedButton] = useState('');
     const [totalCommission, setTotalCommission] = useState(localStorage.getItem("Commission Data"));
     const [forecast, setForecast] = useState()

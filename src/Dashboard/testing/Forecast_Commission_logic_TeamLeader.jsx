@@ -38,7 +38,7 @@ const Forecast_Commission_logic_TeamLeader = (barIndex) => {
   const [forecastSummary, setForecastSummary] = useState(
     JSON.parse(localStorage.getItem("forecast_commission"))
   );
-  const currency = "$";
+  const currency = "";
 
   const [allAgentsPerformance, setAllAgensPerformance] = useState(JSON.parse(localStorage.getItem('TeamLeader Actual')));
   const [agentsTarget, setAgentsTarget] = useState(localStorage.getItem('TotalTargetAgents')?.split(',') || []);
@@ -51,7 +51,7 @@ const Forecast_Commission_logic_TeamLeader = (barIndex) => {
 
   const months = {
     January: 21,
-    February: 19,
+    February: 25,
     March: 21,
     April: 22,
     May: 21,
@@ -88,8 +88,8 @@ const Forecast_Commission_logic_TeamLeader = (barIndex) => {
         (item) => item.kpi === "Total Revenue"
       );
 
-      setActualRevenue(avgMonthlyRevenue.actual);
-      setTargetRevenue(avgMonthlyRevenue.target);
+      // setActualRevenue(avgMonthlyRevenue.actual);
+      // setTargetRevenue(avgMonthlyRevenue.target);
     }
 
     const actuals = localStorage.getItem("tableData");
@@ -166,13 +166,13 @@ const Forecast_Commission_logic_TeamLeader = (barIndex) => {
           <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
             <p className="text-green-500 text-2xl font-normal">
               {(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) < 1000)
-                ? `$${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays)).toFixed(1)}`
-                : `$${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / 1000).toFixed(1)}K`}
+                ? `${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays)).toFixed(1)}`
+                : `${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / 1000).toFixed(1)}K`}
             </p>
             <div className="flex justify-between text-sm text-gray-500 w-full">
-              <span className="-ml-6 mt-2">
+              <span className="mt-2">
                 {/* ${((actualRevenue / workingDays)/1000).toFixed(1)}k */}
-                $ 0
+                0
               </span>
               <span className="ml-20 mt-2">
                 {agentsTarget[barIndex.barIndex] < 1000

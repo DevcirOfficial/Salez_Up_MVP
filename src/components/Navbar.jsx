@@ -246,7 +246,7 @@ const Navbar = () => {
                   >
                     <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                       <img
-                        src={fallbackImage}
+                        src={image || defaultImage}
                         alt=""
                         className="w-full h-full rounded-full object-cover"
                       />

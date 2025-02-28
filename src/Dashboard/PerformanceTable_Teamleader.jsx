@@ -166,9 +166,9 @@ const PerformanceTable_Teamleader = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `£${value}`;
+                return `${value}`;
             case 'Lettings Revenue':
-                return `£${value}`;
+                return `${value}`;
             default:
                 return `${value}`;
         }
@@ -251,7 +251,7 @@ const PerformanceTable_Teamleader = () => {
                                                 <td className="py-2 text-[#269F8B] font-medium">{kpi.kpi_Name}</td>
                                                 <td className="py-2 text-center">{getFormattedValue(kpi.kpi_Name, target)}</td>
                                                 {/* <td className="py-2 text-center">{aggregatedSums[index]?.toFixed(2)}</td> */}
-                                                <td className="py-2 text-center">{getFormattedValue(kpi.kpi_Name, aggregatedSums[index]?.toFixed(2))}</td>
+                                                <td className="py-2 text-center">{getFormattedValue(kpi.kpi_Name, aggregatedSums[index]?.toFixed(0))}</td>
                                                 <td className="py-2 px text-center">
                                                     <span
                                                         className={`inline-block px-2 py-1 w-24 text-center ${getPercentColor(
@@ -263,7 +263,7 @@ const PerformanceTable_Teamleader = () => {
                                                     </span>
                                                 </td>
                                                 <td className="py-2 text-center">
-                                                    {kpiData.teamInfo.currency}{kpi.opportunity.toFixed(1)}
+                                                    {kpiData.teamInfo.currency.replace('$', '£')}{kpi.opportunity.toFixed(1)}
                                                 </td>
                                                 <td className={`py-2 text-center ${kpi.gatekeeper ? 'text-black' : 'bg-gray-100'}`}>
                                                     {kpi.gatekeeper ? 'Yes' : 'N/A'}

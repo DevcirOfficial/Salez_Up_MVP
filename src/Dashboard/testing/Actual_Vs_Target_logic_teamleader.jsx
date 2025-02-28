@@ -100,11 +100,11 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
   }, [barIndex]);
 
   const formatYAxis = (value) => {
-    if (value === 0) return "$0";
+    if (value === 0) return "£0";
     if (value >= 1000) {
-      return `$${value / 1000}k`;
+      return `£${value / 1000}k`;
     }
-    return `$${value}`;
+    return `£${value}`;
   };
 
   const toggleDropdown = () => {
@@ -129,7 +129,7 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
             fill="#059669"
             fontSize={12}
           >
-            ${value / 1000}k
+            £{value / 1000}k
           </text>
         </g>
       );
@@ -208,7 +208,7 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
           tickFormatter={formatYAxis}
         />
         <Tooltip
-          formatter={(value) => `$${value.toLocaleString()}`}
+          formatter={(value) => `£${value.toLocaleString()}`}
           contentStyle={{
             backgroundColor: "white",
             border: "none",
@@ -246,7 +246,7 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
                   fontSize={12}
                   fontWeight="600"
                 >
-                  {value < 1000 ? `$${value}` : `$${value / 1000}K`}
+                  {value < 1000 ? `£${value}` : `£${value / 1000}K`}
                 </text>
               </g>
             )}

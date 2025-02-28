@@ -240,7 +240,7 @@ const SignIn = () => {
             localStorage.setItem('userFName', `${foundUser.first_name} ${foundUser.last_name}`);
             localStorage.setItem('id', foundUser.id);
             localStorage.setItem('Team_id', foundUser.team_id);
-            localStorage.setItem('managerRole', "Sales Agent");
+            localStorage.setItem('managerRole', "Negotiator");
             localStorage.setItem("commission_salesagent", `${kpi.teamInfo.opportunity}`);
             localStorage.setItem("frequency_salesagent", `${kpi.teamInfo.frequency}`);  
             localStorage.setItem("currency", `${kpi.teamInfo.currency}`);  

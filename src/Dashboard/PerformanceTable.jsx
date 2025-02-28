@@ -171,9 +171,9 @@ const PerformanceTable = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `£${value}`;
+                return `${value}`;
             case 'Lettings Revenue':
-                return `£${value}`;
+                return `${value}`;
             default:
                 return `${value}`;
         }
@@ -286,7 +286,7 @@ const PerformanceTable = () => {
                                                                 actualValue = localStorageData.slice(currentDataIndex).reduce(
                                                                     (total, data) => total + parseFloat(data.values[index] || 0),
                                                                     0
-                                                                ).toFixed(1);
+                                                                ).toFixed(0);
                                                             }
                                                         }
 
@@ -324,7 +324,7 @@ const PerformanceTable = () => {
                                                                     </span>
                                                                 </td>
 
-                                                                <td className='py-2 text-center'>{row.commission}</td>
+                                                                <td className='py-2 text-center'>{row.commission.replace('$', '£')}</td>
                                                                 <td
                                                                     className={`px-6 py-1 text-center ${row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
                                                                         ? 'text-black'

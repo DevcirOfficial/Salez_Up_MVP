@@ -43,11 +43,11 @@ const HalfDonutChart = ({ data, colors }) => {
     );
 };
 
-const RevenueTable_TeamLeader = ( barIndex ) => {
+const RevenueTable_TeamLeader = (barIndex) => {
     const [agents, setAgents] = useState([]);
     const [mainAgent, setMainAgent] = useState({})
 
-    const [currency, setCurrency] = useState('$')
+    const [currency, setCurrency] = useState('')
     const [aggregatedData, setAggregatedData] = useState(JSON.parse(localStorage.getItem('aggregated data')));
     const [allAgentsPerformance, setAllAgensPerformance] = useState(JSON.parse(localStorage.getItem('TeamLeader Actual')));
     const [agentPerformance, setAgentPerformance] = useState(JSON.parse(localStorage.getItem('tableData1')))
@@ -134,13 +134,13 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
     }, [])
 
     useEffect(() => {
-        
+
         const forcastData = (JSON.parse(localStorage.getItem('Agents_KPI_Data')))
 
         console.log("FORCAST DATA", forcastData.opportunity)
-        
+
         setForcast(parseFloat(forcastData.opportunity));
-        
+
         // console.log('Forcast Data 2:',forcastData);
 
         const forcast_percentage2 = localStorage.getItem('forcast_percentage');
@@ -174,14 +174,14 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
                     <div className="flex justify-between items-center mb-10">
                         <div className="text-2xl flex items-center">
                             <img
-                                src="/images/3campaign.png"
-                                alt="3 Campaign"
-                                className="w-8 h-8 mr-2"
+                                src="/images/BeaufortGreen.png"
+                                alt="Image"
+                                className="w-8 h-8 mr-2 rounded-full"
                             />
-                            <p className="text-[#009245]">BDR</p>
+                            <p className="text-[#009245]">Beaufort Green</p>
                         </div>
-                        <div className="text-base text-[#009245]">
-                            Agent Leaderboard
+                        <div className="text-[12px] text-[#009245]">
+                            Negotiator Leaderboard
                         </div>
                     </div>
                     <div className="flex justify-around space-x-4">
@@ -218,7 +218,7 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
                     <div className="flex justify-between items-center mb-3">
                         <div>
                             <p className="text-lg text-[#009245]">Forecast Commission</p>
-                            <h2 className="text-xl font-bold text-green-600">${((forcast_Percentage / 100) * forcast).toFixed(1)}</h2>
+                            <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage / 100) * forcast).toFixed(1)}</h2>
                         </div>
                         <div className="flex items-center text-[#009245] font-medium">
                             <FaArrowUp className="mr-1" />
@@ -232,24 +232,24 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
                             <p className="text-xs text-green-600 mb-4">^ {(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100).toFixed(1)}% to target</p>
                             <div className="relative flex justify-center mr-6 items-center -mt-9">
                                 <HalfDonutChart
-                                    data={[ 
+                                    data={[
                                         Math.min((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100), 100),
                                         Math.max(0, 100 - (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100))
                                     ]}
                                     colors={["#ff5f66", "#f3f4f6"]}
                                 />
-                                
+
                                 <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
                                     <p className="text-red-500 text-2xl font-normal">
-                                        {allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] < 1000 
-                                            ? `${currency}${allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex].toFixed(1)}` 
+                                        {allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] < 1000
+                                            ? `${currency}${allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex].toFixed(1)}`
                                             : `${currency}${(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000).toFixed(1)}K`}
                                     </p>
                                     <div className="flex justify-between text-sm text-gray-500 w-full">
-                                        <span>{currency}0K</span>
+                                        <span>{currency}0</span>
                                         <span>
-                                            {agentsTarget[barIndex.barIndex] < 1000 
-                                                ? `${currency}${agentsTarget[barIndex.barIndex]}` 
+                                            {agentsTarget[barIndex.barIndex] < 1000
+                                                ? `${currency}${agentsTarget[barIndex.barIndex]}`
                                                 : `${currency}${parseInt(agentsTarget[barIndex.barIndex] / 1000)}K`}
                                         </span>
                                     </div>
@@ -270,7 +270,7 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
             </div>
 
             <Agent_Ranking_chart leaderboardData={leaderboardData} />
-            <Actual_Vs_Target_logic_teamleader  barIndex={barIndex.barIndex} />
+            <Actual_Vs_Target_logic_teamleader barIndex={barIndex.barIndex} />
         </div>
     );
 };

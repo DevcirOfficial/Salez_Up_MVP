@@ -9,7 +9,7 @@ import Chart from './testing/Chaart';
 const My_Commission = () => {
     const [activeButton, setActiveButton] = useState("Current Month");
     const [commission, setCommission] = useState('');
-    const [currency, setCurrency] = useState('$')
+    const [currency, setCurrency] = useState('£')
     const [allowedButton, setAllowedButton] = useState('');
     const [agents, setAgents] = useState([]);
     const [mainAgent, setMainAgent] = useState({})
@@ -100,6 +100,7 @@ const My_Commission = () => {
             const foundAgent = topAgents.find(agent => agent.id == agentId);
             if (foundAgent) {
                 setMainAgent([foundAgent]);
+                localStorage.setItem("Rank", foundAgent?.rank ?? 0);
             }
             const gatekeeperRow = performanceTable.find(row => row.gatekeeperTarget !== "-");
             // Store the gatekeeper target data
@@ -253,7 +254,7 @@ const My_Commission = () => {
                                             {item.name}
                                         </p>
                                         <p className="text-lg text-[#1E8675] font-semibold mb-1">
-                                            {item.name == 'Team Rank' ? item.amount : `$${item.amount}`}
+                                            {item.name == 'Team Rank' ? item.amount : `£${item.amount}`}
                                         </p>
                                         <div className="w-24 h-24 mt-4 relative">
                                             <CircularProgressbar

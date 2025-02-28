@@ -155,16 +155,16 @@ const Forecast_Commission_logic = (barIndex) => {
           />
           <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
             <p className="text-green-500 text-2xl font-normal">
-              ${(((actualRevenue / workingDays) * totalDays) < 1000
+              {(((actualRevenue / workingDays) * totalDays) < 1000
                 ? ((actualRevenue / workingDays) * totalDays).toFixed(1)
                 : (((actualRevenue / workingDays) * totalDays) / 1000).toFixed(1))}{(((actualRevenue / workingDays) * totalDays) < 1000) ? '' : 'K'}
             </p>
             <div className="flex justify-between text-sm text-gray-500 w-full">
               <span className="-ml-1 mt-2">
-                $0
+                0
               </span>
               <span className="ml-20 mt-2">
-                ${targetRevenue < 1000 ? targetRevenue : (targetRevenue / 1000).toFixed(1)}{targetRevenue < 1000 ? '' : 'K'}
+                {targetRevenue < 1000 ? targetRevenue : (targetRevenue / 1000).toFixed(1)}{targetRevenue < 1000 ? '' : 'K'}
               </span>
             </div>
           </div>
