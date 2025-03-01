@@ -122,11 +122,13 @@ const RevenueTable_TeamLeader = (barIndex) => {
 
     const [forcast, setForcast] = useState('');
     const [forcast_Percentage, setForcast_Percentage] = useState('')
+    const [commission, setCommission] = useState()
 
     useEffect(() => {
         const forcast_percentage2 = localStorage.getItem('forcast_percentage');
-        console.log("value of forcast percentage: ", (forcast_percentage2));
-
+        const performanceTable = JSON.parse(localStorage.getItem('Performance_Table'));
+        console.log("Performanc: ", (performanceTable));
+        setCommission(performanceTable[barIndex.barIndex].opportunity)
         setForcast_Percentage(forcast_percentage2)
 
         localStorage.setItem('Percent_to_forcast', forcast_Percentage)
@@ -218,7 +220,7 @@ const RevenueTable_TeamLeader = (barIndex) => {
                     <div className="flex justify-between items-center mb-3">
                         <div>
                             <p className="text-lg text-[#009245]">Forecast Commission</p>
-                            <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage / 100) * forcast).toFixed(1)}</h2>
+                            <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage / 100) * commission).toFixed(1)}</h2>
                         </div>
                         <div className="flex items-center text-[#009245] font-medium">
                             <FaArrowUp className="mr-1" />

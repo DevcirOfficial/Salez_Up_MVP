@@ -199,7 +199,7 @@ const Intro_Teamleader = () => {
         // Fetch campaign data only if teamId is available
         if (teamId) {
           const campaignResponse = await axios.get(`https://crmapi.devcir.co/api/team_leader/by_team/${teamId}`);
-          const campaignImagePath = campaignResponse.data?.team?.campaigns_and_teams?.campaign?.image_path;
+          const campaignImagePath = campaignResponse.data?.team_and_team_leader?.team?.campaigns_and_teams[0]?.campaign?.image_path;
           setCampaignImage(campaignImagePath || Coke);
         }
 
@@ -265,7 +265,7 @@ const Intro_Teamleader = () => {
   // const handleImageError = (e) => {
   //   e.target.src = randomImages[Math.floor(Math.random() * randomImages.length)];
   // };
-
+  
   return (
     <div className='w-auto mt-8 p-4 flex flex-col gap-[32px] mb-4'>
       <div className="flex flex-col w-auto gap-6 p-8 pb-12 card">
@@ -276,7 +276,7 @@ const Intro_Teamleader = () => {
             <div className="flex items-center gap-2">
               <p className="text-lg text-themeGreen">Campaigns : </p>
               <img 
-                src={campaignImage} 
+                src={`https://crmapi.devcir.co/public/storage/${campaignImage}`} 
                 alt="Campaign"
                 className="w-8 h-8 rounded-full object-cover"
                 // onError={handleImageError}

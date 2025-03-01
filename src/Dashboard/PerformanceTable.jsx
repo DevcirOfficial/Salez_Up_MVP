@@ -171,9 +171,9 @@ const PerformanceTable = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `${value}`;
+                return `£${value}`;
             case 'Lettings Revenue':
-                return `${value}`;
+                return `£${value}`;
             default:
                 return `${value}`;
         }

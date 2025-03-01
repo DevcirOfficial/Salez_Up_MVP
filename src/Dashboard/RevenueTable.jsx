@@ -69,6 +69,7 @@ const RevenueTable = ( barIndex ) => {
       const formattedAgents = data.map((agent, index) => {
         const kpiData = JSON.parse(agent.kpi_data);
         const target = kpiData.kpiData[barIndex.barIndex].target;
+        const commissionValue = kpiData.kpiData[barIndex.barIndex].opportunity;
         console.log("Actual Value:  ", aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex])
         const actualValue = aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex] || 1;  
         console.log("asdqewqrt:  ", aggregatedData?.[index]?.aggregatedValues[barIndex.barIndex])
@@ -84,6 +85,7 @@ const RevenueTable = ( barIndex ) => {
           score: target,
           target: target,
           actual: actualValue,
+          commission: commissionValue,
           image: agent.image_path,
         };
       });
@@ -209,7 +211,7 @@ const RevenueTable = ( barIndex ) => {
           <div className="flex justify-between items-center mb-3">
             <div>
               <p className="text-lg text-[#009245]">Forecast Commission</p>
-              <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage/100)*forcast).toFixed(1)}</h2>
+              <h2 className="text-xl font-bold text-green-600">£{isNaN((forcast_Percentage / 100) * mainAgent[0]?.commission) ? 0 : ((forcast_Percentage / 100) * mainAgent[0]?.commission).toFixed(1)}</h2>
             </div>
             <div className="flex items-center text-[#009245] font-medium">
               <FaArrowUp className="mr-1" />

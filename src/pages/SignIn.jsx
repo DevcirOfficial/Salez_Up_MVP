@@ -248,12 +248,7 @@ const SignIn = () => {
             localStorage.setItem('SalesAgent_Image', JSON.stringify(foundUser.image_path));
           }
           
-          
-
-          // Store user info in local storage
-
           console.log("This is my email: ", foundUser.email);
-          setIsAdminLoggedIn(true);
 
         } else {
           console.log("----  Wrong Password  ----");

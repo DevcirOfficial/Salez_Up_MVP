@@ -111,6 +111,7 @@ const My_Commission = () => {
 
         fetchAgents();
         setTotalCommission((parseFloat(commission) + parseFloat(contestData.totalPrizes) || 0));
+        localStorage.setItem("CurrentCommission", (commission))
     }, [aggregatedData, allowedButton]);
 
     useEffect(() => {

@@ -17,13 +17,36 @@ const ContestSummary = () => {
         ]
     };
 
+    const tiers = [
+        { name: 'Bronze', range: [0, 100], icon: '/images/Badges/badge_bronze.png', textColor: 'text-[#764f26]', color: 'linear-gradient(to right, #5f4114, #c67e3a)', borderColor: '#5f4114' },
+        { name: 'Silver', range: [101, 300], icon: '/images/Badges/badge_silver.png', textColor: 'text-[#636363]', color: 'linear-gradient(to right, #d0d0d0, #4b4b4b)', borderColor: '#686868' },
+        { name: 'Gold', range: [301, 500], icon: '/images/Badges/badge_gold.png', textColor: 'text-[#A35100]', color: 'linear-gradient(to right, #ffdb6f, #c77d19)', borderColor: '#f69c34' },
+        { name: 'Platinum', range: [501, 700], icon: '/images/Badges/badge_platinium.png', textColor: 'text-[#5F5F5F]', color: 'linear-gradient(to right, #aeaeae, #696969)', borderColor: '#696969' },
+        { name: 'Unicorn', range: [701, 1000], icon: '/images/Badges/badge_unicorn.png', textColor: 'text-blue-400', color: 'linear-gradient(to right, #1DD6FF, #D21EFF)', borderColor: '#5046e9' },
+    ];
+
     const [summary, setSummary] = useState(initialSummary);
     const [selectedPeriod, setSelectedPeriod] = useState(localStorage.getItem('frequency_salesagent'));
 
-    useEffect (() => {
+    useEffect(() => {
         const newSummary = JSON.parse(localStorage.getItem('contestSummary')) || initialSummary;
-        setSummary(newSummary); 
-    },[])
+        setSummary(newSummary);
+    }, [])
+
+    useEffect(() => {
+        const newSummary = JSON.parse(localStorage.getItem('contestSummary'));
+        setSummary(newSummary);
+        const handleStorageChange = (event) => {
+            if (event.key === 'contestSummary') {
+                const newSummary = JSON.parse(localStorage.getItem('contestSummary'));
+                setSummary(newSummary);
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
 
     const handleButtonClick = (period) => {
         setSelectedPeriod(period);
@@ -145,8 +168,36 @@ const ContestSummary = () => {
         { name: 'Sam Smith', level: 'Platinum', points: 150, money: 100, avatar: '/images/agent1.png', badgeColor: '/images/Badges/badge_platinium.png' }
     ];
 
+    const userFName = localStorage.getItem('userFName');
+    const currentContestant = contestants.find(contestant => contestant.name === userFName);
+
+    if (currentContestant && summary) {
+        currentContestant.points = summary.points;
+        currentContestant.money = summary.totalPrizes;
+
+        console.log("Current Contestant = ", currentContestant)
+
+        let tierIndex = -1; // Initialize tierIndex to -1
+        if (currentContestant.points >= 0 && currentContestant.points <= 100) {
+            tierIndex = 0; // Tier 0 for points between 0-100
+        } else if (currentContestant.points >= 101 && currentContestant.points <= 300) {
+            tierIndex = 1; // Tier 1 for points between 101-300
+        } else if (currentContestant.points >= 301 && currentContestant.points <= 500) {
+            tierIndex = 2; // Tier 2 for points between 301-500
+        } else if (currentContestant.points >= 501 && currentContestant.points <= 700) {
+            tierIndex = 3; // Tier 3 for points between 501-700
+        } else if (currentContestant.points >= 701 && currentContestant.points <= 1000) {
+            tierIndex = 4; // Tier 4 for points between 701-1000
+        }
+
+        if (tierIndex !== -1) {
+            currentContestant.level = tiers[tierIndex].name; // Set level based on tier
+            currentContestant.badgeColor = tiers[tierIndex].icon; // Set badgeColor based on tier icon
+        }
+    }
+
     const leaderboardData = [
-        { name: 'Charlie Green', score: 200, image: '/images/agent2.png', badge: '/images/Badges/badge_unicorn.png' },
+        { name: 'Charlie Green', score: 800, image: '/images/agent2.png', badge: '/images/Badges/badge_unicorn.png' },
         { name: 'Sam Smith', score: 150, image: '/images/agent1.png', badge: '/images/Badges/badge_platinium.png' }
     ];
 
@@ -158,20 +209,20 @@ const ContestSummary = () => {
                     <div className='flex justify-between items-center mb-4'>
                         <h1 className='font-[440] leading-[33px] text-[28px] text-[#269F8B]'>Contest Summary</h1>
                         <div className='flex'>
-                            <button 
-                                onClick={() => handleButtonClick('Week')} 
+                            <button
+                                onClick={() => handleButtonClick('Week')}
                                 className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Week' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Week
                             </button>
-                            <button 
-                                onClick={() => handleButtonClick('Month')} 
+                            <button
+                                onClick={() => handleButtonClick('Month')}
                                 className={`px-6 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Monthly' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Month
                             </button>
-                            <button 
-                                onClick={() => handleButtonClick('Year')} 
+                            <button
+                                onClick={() => handleButtonClick('Year')}
                                 className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Year' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Year
@@ -225,7 +276,7 @@ const ContestSummary = () => {
                                         </div>
                                     </div>
                                     <p className='mt-10 text-lg font-medium text-[#009245]'>{contestant.name}</p>
-                                    <p className={`mt-1 text-base font-bold bg-clip-text text-transparent ${index == 0 ? 'bg-gradient-to-r from-[#1DD6FF] to-[#D21EFF]' : index == 1 ? 'bg-[#4F4F4F]' : 'bg-[#FFC700]'}`}>{contestant.level}</p>
+                                    <p className={`mt-1 text-base font-bold bg-clip-text ${contestant.level ? tiers.find(tier => tier.name === contestant.level).textColor : ''} ${contestant.level ? tiers.find(tier => tier.name === contestant.level).color : ''}`}>{contestant.level}</p>
                                     <div className='flex items-center mt-1'>
                                         <img src='images/star.png' alt='Star' className='w-6 h-6 mt-1' />
                                         <span className='ml-1 text-base text-[#6A6A6A] font-medium'>{contestant.points} points</span>
@@ -240,9 +291,9 @@ const ContestSummary = () => {
 
 
 
-                        <div>
+                        {/* <div>
                             <Leaderboard leaderboardData={leaderboardData} />
-                        </div>
+                        </div> */}
 
 
                     </div>

@@ -23,7 +23,6 @@ const Intro = () => {
     const storedImage = localStorage.getItem("SalesAgent_Image");
     if (storedImage) {
       try {
-        // Parse the JSON string to remove the extra quotes
         const imagePath = JSON.parse(storedImage);
         setImage(imagePath);
       } catch (error) {
@@ -50,6 +49,8 @@ const Intro = () => {
       setFirstName(loginName.split(' ')[0]);
     }
     const commission_Agent = localStorage.getItem('commission_salesagent');
+    let currentCommission = localStorage.getItem('CurrentCommission');
+
     setCommission(commission_Agent);
 
     const contest_data = localStorage.getItem('contestSummary');
@@ -59,12 +60,20 @@ const Intro = () => {
       const points = parsedData.points || '';
       const total = parseFloat(parsedData.totalPrizes) + parseFloat(commission_Agent)
       console.log("Total", total)
-      setData({
-        points: points,
-        contests: parsedData.contests || '',
-        timeStatsValue: parsedData.timeStats?.value || '',
-        monthStatsValue: total,
-      });
+
+      // Fetch CurrentCommission every second until a valid value is found
+      const intervalId = setInterval(() => {
+        currentCommission = localStorage.getItem('CurrentCommission');
+        if (currentCommission) {
+          clearInterval(intervalId); // Stop fetching once a valid value is found
+          setData({
+            points: points,
+            contests: parsedData.contests || '',
+            timeStatsValue: parsedData.timeStats?.value || '',
+            monthStatsValue: currentCommission,
+          });
+        }
+      }, 1000);
       
       // Update badge based on points
       const currentTier = tiers.find(

@@ -47,7 +47,8 @@ const PerformanceTable_Teamleader = () => {
                         .then(data => {
                             setTeamLeader(data.team_and_team_leader);
                             setKpiData(JSON.parse(data.team_and_team_leader.kpi_data));
-                            console.log("Performance: ", JSON.parse(data.team_and_team_leader.kpi_data));
+                            // console.log("Performance: ", JSON.parse(data.team_and_team_leader.kpi_data).kpiData);
+                            localStorage.setItem("Performance_Table", JSON.stringify(JSON.parse(data.team_and_team_leader.kpi_data).kpiData))
                         })
                         .catch(err => console.error(err));
                 }
@@ -59,19 +60,20 @@ const PerformanceTable_Teamleader = () => {
         waitForTeamId();
     }, []);
 
-    useEffect(() => {
-        const calculateAggregatedSums = () => {
-            const aggregatedData = JSON.parse(localStorage.getItem('TeamLeader Actual')) || [];
-            const sums = [];
-            aggregatedData.forEach(agent => {
-                const values = agent.aggregatedValues || [];
-                values.forEach((value, index) => {
-                    const numValue = Number(value) || 0;
-                    sums[index] = (sums[index] || 0) + numValue;
-                });
+    const calculateAggregatedSums = () => {
+        const aggregatedData = JSON.parse(localStorage.getItem('TeamLeader Actual')) || [];
+        const sums = [];
+        aggregatedData.forEach(agent => {
+            const values = agent.aggregatedValues || [];
+            values.forEach((value, index) => {
+                const numValue = Number(value) || 0;
+                sums[index] = (sums[index] || 0) + numValue;
             });
-            setAggregatedSums(sums);
-        };
+        });
+        setAggregatedSums(sums);
+    };
+
+    useEffect(() => {
         setAllTargets(localStorage.getItem('TotalTargetAgents')?.split(',') || []);
         console.log('Target: ', allTargets)
         calculateAggregatedSums();
@@ -166,9 +168,9 @@ const PerformanceTable_Teamleader = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `${value}`;
+                return `£${value}`;
             case 'Lettings Revenue':
-                return `${value}`;
+                return `£${value}`;
             default:
                 return `${value}`;
         }

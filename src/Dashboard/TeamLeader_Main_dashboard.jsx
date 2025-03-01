@@ -8,7 +8,7 @@ import PerformanceTable_Teamleader from './PerformanceTable_Teamleader';
 
 
 const TeamLeader_Main_dashboard = () => {
-    
+
     const [localStorageData, setLocalStorageData] = useState([]);
 
     const processWeekdayData = (localData) => {
@@ -108,58 +108,24 @@ const TeamLeader_Main_dashboard = () => {
             { month: "Sep", amount: 2020 },
             { month: "Oct", amount: 2090 },
             { month: "Nov", amount: 2098 },
-            { month: "Dec", amount:600 },
+            { month: "Dec", amount: 600 },
         ];
 
         localStorage.setItem("Monthly Commission", JSON.stringify(initialData));
-        
+
         return aggregatedData && aggregatedDataTeamLeader;
     };
 
-    // const processDataTeamLeader = (localData) => {
-    //     const aggregatedDataTeamLeader = [];
-
-    //     // Group data by agent
-    //     const agentGroupsTeamLeader = localData.reduce((acc, item) => {
-    //         if (!acc[item.agentName]) {
-    //             acc[item.agentName] = [];
-    //         }
-    //         acc[item.agentName].push(...item.days);
-    //         return acc;
-    //     }, {});
-
-    //     // Process each agent's data
-    //     Object.entries(agentGroupsTeamLeader).forEach(([agentName, days]) => {
-    //         // Group days by weekday
-    //         const weekdayGroupsTeamLeader = days.reduce((acc, day) => {
-    //             if (!acc[day.dayName]) {
-    //                 acc[day.dayName] = [];
-    //             }
-    //             acc[day.dayName].push(day.values);
-    //             return acc;
-    //         }, {});
-
-    //         // Calculate aggregated values for each position across weekdays
-    //         const numValuesTeamLeader = days[0]?.values.length || 0;
-    //         const aggregatedValuesTeamLeader = Array(numValuesTeamLeader).fill(0).map((_, valueIndex) => {
-    //             const sum = Object.values(weekdayGroupsTeamLeader).reduce((acc, weekdayValues) => {
-    //                 return acc + weekdayValues.reduce((sum, values) => sum + parseFloat(values[valueIndex]), 0);
-    //             }, 0);
-    //             return sum; // Sum across weekdays instead of averaging
-    //         });
-
-    //         // Calculate aggregatedValuesTeamLeader[4] as (aggregatedValuesTeamLeader[2] / aggregatedValuesTeamLeader[3] * 100)
-    //         aggregatedValuesTeamLeader[4] = (aggregatedValuesTeamLeader[3] / aggregatedValuesTeamLeader[2] * 100) || 0;
-
-    //         aggregatedDataTeamLeader.push({
-    //             agentName,
-    //             aggregatedValuesTeamLeader
-    //         });
-    //     });
-
-    //     localStorage.setItem("aggregated data", JSON.stringify(aggregatedDataTeamLeader));
-    //     return aggregatedDataTeamLeader;
-    // };
+    useEffect(() => {
+        // Fetch team leader data
+        const teamId = localStorage.getItem('TeamId')
+        fetch(`https://crmapi.devcir.co/api/team_leader/by_team/${teamId}`)
+            .then(res => res.json())
+            .then(data => {
+                localStorage.setItem("Campaign Image: ", data.team_and_team_leader.team.campaigns_and_teams[0].campaign.image_path)
+            })
+            .catch(err => console.error(err));
+    }, []);
 
     useEffect(() => {
         processWeekdayData(localStorageData);
@@ -195,12 +161,12 @@ const TeamLeader_Main_dashboard = () => {
             <Navbar />
             <div className='w-full flex flex-row'>
                 <div className="w-[21%]">
-                   <Teamleader_Sidebar/>
+                    <Teamleader_Sidebar />
                 </div>
                 <div className="w-[79%] flex flex-col overflow-hidden">
-                    <Intro_Teamleader/>
-                    <My_Commission_Teamleader/>
-                    <PerformanceTable_Teamleader/>
+                    <Intro_Teamleader />
+                    <My_Commission_Teamleader />
+                    <PerformanceTable_Teamleader />
                     <ContestSummary />
                 </div>
 

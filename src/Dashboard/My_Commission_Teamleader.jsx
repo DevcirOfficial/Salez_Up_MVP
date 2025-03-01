@@ -32,11 +32,11 @@ const My_Commission_Teamleader = () => {
             }
             forecastData = JSON.parse(localStorage.getItem('Agents_KPI_Data'));
             setForecast(parseFloat(forecastData.opportunity));
-
+            const teamId = localStorage.getItem('TeamId')
             try {
-                const response = await fetch('https://crmapi.devcir.co/api/team_leader/by_team/37');
+                const response = await fetch(`https://crmapi.devcir.co/api/team_leader/by_team/${teamId}`);
                 const data = await response.json();
-                const imagePath = data.team.campaigns_and_teams.campaign.image_path;
+                const imagePath = data?.team_and_team_leader?.team?.campaigns_and_teams[0]?.campaign?.image_path;
                 setCampaignImage(imagePath || Coke);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -107,7 +107,7 @@ const My_Commission_Teamleader = () => {
                             <h3 className="text-lg font-medium text-gray-600 mb-4">Commission Contribution</h3>
                             <div className="w-16 h-16 mb-4 rounded-full overflow-hidden">
                                 <img
-                                    src={campaignImage || Coke}
+                                    src={`https://crmapi.devcir.co/public/storage/${campaignImage}`}
                                     alt="Company Logo"
                                     className="w-full h-full object-cover"
                                 />
