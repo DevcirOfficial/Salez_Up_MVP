@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import Chart from './testing/Chaart';
 import Actual_Vs_Target_logic_teamleader from './testing/Actual_Vs_Target_logic_teamleader';
 import fallbackImage from "/public/images/image_not_1.jfif";
@@ -15,13 +15,40 @@ const My_Commission_Teamleader = () => {
     const [forecast, setForecast] = useState()
     const [lastMonthCommission, setLastMonthCommission] = useState(0);
     const [percentageChange, setPercentageChange] = useState(0);
-    const buttons = ["Current Month", "Custom"];
+    const buttons = ["Current Month",
+        //  "Custom"
+    ];
     const [campaignImage, setCampaignImage] = useState(null);
 
     const handleButtonClick = (label) => {
         if (label !== allowedButton) return;
         setActiveButton(label);
     };
+
+
+    useEffect(() => {
+        const fetchLastMonthCommission = () => {
+            const storedCommission = localStorage.getItem('lastMonthComm');
+            if (storedCommission) {
+                setLastMonthCommission(parseFloat(storedCommission));
+                clearInterval(intervalId); // Stop fetching once found
+            }
+        };
+
+        const intervalId = setInterval(fetchLastMonthCommission, 1000); // Fetch every 1 second
+
+        return () => clearInterval(intervalId); // Cleanup on component unmount
+    }, []);
+
+    useEffect(() => {
+        if (lastMonthCommission > 0) {
+            const difference = forecast - lastMonthCommission;
+            const percentageDifference = (difference / lastMonthCommission) * 100;
+            setPercentageChange(percentageDifference.toFixed(2)); // Set percentage change
+        } else {
+            setPercentageChange(0);
+        }
+    }, [forecast, lastMonthCommission]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,14 +101,23 @@ const My_Commission_Teamleader = () => {
                         <div className="flex justify-between items-center mt-4">
                             <h2 className="text-2xl text-[#009245]">Total Commission</h2>
                             <div className="flex items-center">
-                                <FontAwesomeIcon icon={faCaretUp} className="text-[#009245]" />
-                                <span className="text-[#009245] text-2xl font-semibold ml-2">{percentageChange}%</span>
+                                {percentageChange < 0 ? (
+                                    <>
+                                        <FontAwesomeIcon icon={faCaretDown} className="text-red-500" />
+                                        <span className="text-red-500 text-2xl font-semibold ml-2">{percentageChange}%</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <FontAwesomeIcon icon={faCaretUp} className="text-[#009245]" />
+                                        <span className="text-[#009245] text-2xl font-semibold ml-2">{percentageChange}%</span>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="flex justify-between items-center mt-4">
                             {/* <p className="text-3xl font-semibold text-[#1E8675]">{currency}{parseFloat(totalCommission).toFixed(2)}</p> */}
                             <p className="text-3xl font-semibold text-[#1E8675]">{currency}{forecast}</p>
-                            <p className="text-mm text-[#5F5E5E]">vs {currency}{lastMonthCommission} last month</p>
+                            <p className="text-mm text-[#5F5E5E]">vs {currency}{forecast - lastMonthCommission} last month</p>
                         </div>
                         <div className="flex justify-evenly mt-12">
                             {buttons.map((label) => (
@@ -91,9 +127,9 @@ const My_Commission_Teamleader = () => {
                                     disabled={label !== activeButton}
                                     className={`px-4 py-1 border-2 rounded-lg text-lg 
                                         ${activeButton === label
-                                                ? "border-[#1E8675] text-[#009245]"
-                                                : "border-[#E5E5E5] text-[#072D20]"
-                                            }
+                                            ? "border-[#1E8675] text-[#009245]"
+                                            : "border-[#E5E5E5] text-[#072D20]"
+                                        }
                                         ${label !== activeButton ? "opacity-30 cursor-not-allowed" : ""}`}
                                 >
                                     {label}

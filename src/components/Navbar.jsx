@@ -220,7 +220,7 @@ const Navbar = () => {
           <div className="flex items-center relative">
             <button 
               className="text-[#000] gap-[12px] flex items-center"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              // onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <img
                 src={image || defaultImage}

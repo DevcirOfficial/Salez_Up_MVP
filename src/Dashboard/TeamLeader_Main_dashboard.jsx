@@ -97,7 +97,7 @@ const TeamLeader_Main_dashboard = () => {
         localStorage.setItem("aggregated data", JSON.stringify(aggregatedDataTeamLeader));
 
         const initialData = [
-            { month: "Jan", amount: 2400 },
+            { month: "Jan", amount: 2000 },
             { month: "Feb", amount: 2200 },
             { month: "Mar", amount: 1800 },
             { month: "Apr", amount: 2500 },

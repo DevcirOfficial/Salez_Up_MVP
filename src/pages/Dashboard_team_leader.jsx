@@ -309,7 +309,7 @@ const Dashboard_TeamLeader = () => {
     };
 
     const data = [
-        { month: 'Jan', value: 2400 },
+        { month: 'Jan', value: 2000 },
         { month: 'Feb', value: 2200 },
         { month: 'Mar', value: 1800 },
         { month: 'Apr', value: 2500 },

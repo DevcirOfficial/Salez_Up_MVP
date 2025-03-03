@@ -4,7 +4,7 @@ import { ChevronDown } from "lucide-react";
 
 // Initial data
 const initialData = [
-  { month: "Jan", amount: 2400 },
+  { month: "Jan", amount: 2000 },
   { month: "Feb", amount: 2200 },
   { month: "Mar", amount: 1800 },
   { month: "Apr", amount: 2500 },
@@ -63,10 +63,12 @@ const Chart = () => {
     const fetchData = () => {
       const userMonth = JSON.parse(localStorage.getItem("Agents_KPI_Data"));
       const managerRole = localStorage.getItem('managerRole');
-      const month = userMonth.month ? userMonth.month.replace(/^"|"$/g, '') : '';
+
+      // Check if userMonth is not null before accessing its properties
+      const month = userMonth && userMonth.month ? userMonth.month.replace(/^"|"$/g, '') : '';
       const value = (managerRole === 'Negotiator')
         ? localStorage.getItem('CurrentCommission')
-        : userMonth.opportunity ? userMonth.opportunity.replace(/^"|"$/g, '') : '';
+        : userMonth && userMonth.opportunity ? userMonth.opportunity.replace(/^"|"$/g, '') : '';
 
       // Fetch data from localStorage
       const storedData = JSON.parse(localStorage.getItem("Monthly Commission")) || initialData;
@@ -79,19 +81,28 @@ const Chart = () => {
         const formattedMonth = monthMapping[month.toLowerCase()];
 
         if (formattedMonth) {
+          let totalAmount = 0; // Initialize total amount
           const updatedData = storedData.map((item, index) => {
             if (item.month === formattedMonth) {
+              totalAmount += parseFloat(value); // Add the found month value
               return { ...item, amount: parseFloat(value) };
             } else if (index > storedData.findIndex(i => i.month === formattedMonth)) {
               return null;
             }
+            totalAmount += item.amount; // Accumulate amount
             return item;
           }).filter(item => item !== null);
-          console.log("DATA => ", updatedData)
+          
+          const lastMonthIndex = storedData.findIndex(i => i.month === formattedMonth) - 1;
+          const lastMonthCom = lastMonthIndex >= 0 ? storedData[lastMonthIndex].amount : null;
+          console.log("Last Month Amount => ", lastMonthCom);
+          console.log("Total Amount till found month => ", totalAmount); // Log total amount
+          localStorage.setItem("LifeTimeCommission", totalAmount);
+          localStorage.setItem("lastMonthComm", lastMonthCom);
+          console.log("DATA => ", updatedData);
           setChartData(updatedData);
         }
-      }
-      else {
+      } else {
         // Retry fetching data after a short delay if not available
         setTimeout(fetchData, 1000); // Check again after 1 second
       }

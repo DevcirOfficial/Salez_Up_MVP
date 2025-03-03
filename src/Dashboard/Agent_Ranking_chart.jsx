@@ -47,7 +47,7 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
                     className="absolute font-bold bg-white text-[#009245] w-16 text-xs rounded px-4 py-1"
                     style={{
                         top: '-6px',
-                        left: `calc(${Math.min(completed / total * 100, 100)}% - ${Math.min(completed / total * 100, 100) >= 100 ? 60 : 40}px)`,
+                        left: `calc(${Math.min(completed / total * 100, 100)}% - ${Math.min(completed / total * 100, 100) >= 100 ? 60 : 10}px)`,
                         zIndex: 10,
                     }}
                 >
@@ -94,6 +94,9 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
         </div>
     );
 
+    // Sort leaderboardData by actual score in descending order
+    const sortedLeaderboardData = [...leaderboardData].sort((a, b) => b.actual - a.actual);
+
     const Leaderboard = ({ leaderboardData }) => (
         <div className="rounded-3xl border-[1px] border-gray-200 shadow py-8 mt-4 w-full max-w-10xl">
             {/* Header Section */}
@@ -122,17 +125,25 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
                 {leaderboardData.length === 0 ? (
                     <p className="text-center text-gray-500">No data available</p>
                 ) : (
-                    leaderboardData.map((item, index) => (
-                        <LeaderboardItem
-                            key={index}
-                            rank={index + 1}
-                            name={item.name}
-                            score={item.target}
-                            actual={item.actual}
-                            image={item.image}
-                            badgess={item.badge}
-                        />
-                    ))
+                    sortedLeaderboardData.map((item, index) => {
+                        const rankSetter = index + 1;
+                        const currentRank = rankSetter;
+                        const previousRank = rankSetter - 1;
+                        const previousItem = sortedLeaderboardData[index - 1];
+                        const rank = (previousItem && item.actual === previousItem.actual) ? previousRank : currentRank;
+
+                        return (
+                            <LeaderboardItem
+                                key={index}
+                                rank={rank}
+                                name={item.name}
+                                score={item.target}
+                                actual={item.actual}
+                                image={item.image}
+                                badgess={item.badge}
+                            />
+                        );
+                    })
                 )}
             </div>
         </div>

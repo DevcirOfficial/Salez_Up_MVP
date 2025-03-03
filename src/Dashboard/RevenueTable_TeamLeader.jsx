@@ -97,14 +97,28 @@ const RevenueTable_TeamLeader = (barIndex) => {
             setLeaderboardData(formattedAgents)
             console.log("AGents   : ", formattedAgents)
 
-            const topAgents = formattedAgents
-                .sort((a, b) => b.targetPercentage - a.targetPercentage)
-                .slice(0, 3)
-                .map((agent, index) => ({
-                    ...agent,
-                    rank: index + 1,
-                    target: `${agent.targetPercentage.toFixed(2)}%`,
-                }));
+            const sortedAgents = formattedAgents.sort((a, b) => b.targetPercentage - a.targetPercentage);
+            const topAgents = [];
+            let currentRank = 1;
+
+            for (let i = 0; i < sortedAgents.length; i++) {
+                if (i > 0 && sortedAgents[i].targetPercentage === sortedAgents[i - 1].targetPercentage) {
+                    // If the current agent has the same targetPercentage as the previous one, assign the same rank
+                    topAgents.push({
+                        ...sortedAgents[i],
+                        rank: topAgents[topAgents.length - 1].rank,
+                        target: `${sortedAgents[i].targetPercentage.toFixed(2)}%`,
+                    });
+                } else {
+                    // Assign a new rank
+                    topAgents.push({
+                        ...sortedAgents[i],
+                        rank: currentRank,
+                        target: `${sortedAgents[i].targetPercentage.toFixed(2)}%`,
+                    });
+                    currentRank++;
+                }
+            }
 
             setAgents(topAgents);
 
