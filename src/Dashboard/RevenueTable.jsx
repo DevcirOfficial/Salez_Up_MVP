@@ -227,10 +227,10 @@ const RevenueTable = ( barIndex ) => {
               <p className="text-lg text-[#009245]">Forecast Commission</p>
               <h2 className="text-xl font-bold text-green-600">£{isNaN((forcast_Percentage / 100) * mainAgent[0]?.commission) ? 0 : ((forcast_Percentage / 100) * mainAgent[0]?.commission).toFixed(1)}</h2>
             </div>
-            <div className="flex items-center text-[#009245] font-medium">
+            {/* <div className="flex items-center text-[#009245] font-medium">
               <FaArrowUp className="mr-1" />
               <span>0%</span>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center justify-between">

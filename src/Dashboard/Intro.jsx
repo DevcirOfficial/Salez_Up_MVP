@@ -35,11 +35,11 @@ const Intro = () => {
   }, []);
 
   const tiers = [
-    { name: 'Bronze', range: [0, 100], icon: '/images/Badges/badge_bronze.png', textColor: 'text-[#764f26]', color: 'linear-gradient(to right, #5f4114, #c67e3a)', borderColor: '#5f4114' },
-    { name: 'Silver', range: [101, 300], icon: '/images/Badges/badge_silver.png', textColor: 'text-[#636363]', color: 'linear-gradient(to right, #d0d0d0, #4b4b4b)', borderColor: '#686868' },
-    { name: 'Gold', range: [301, 500], icon: '/images/Badges/badge_gold.png', textColor: 'text-[#A35100]', color: 'linear-gradient(to right, #ffdb6f, #c77d19)', borderColor: '#f69c34' },
-    { name: 'Platinum', range: [501, 700], icon: '/images/Badges/badge_platinium.png', textColor: 'text-[#5F5F5F]', color: 'linear-gradient(to right, #aeaeae, #696969)', borderColor: '#696969' },
-    { name: 'Unicorn', range: [701, 1000], icon: '/images/Badges/badge_unicorn.png', textColor: 'text-blue-400', color: 'linear-gradient(to right, #1DD6FF, #D21EFF)', borderColor: '#5046e9' },
+    { name: 'Bronze', range: [0, 100], icon: '/images/Badges/badge_bronze.png', textColor: 'text-[#764f26]', color: 'bg-gradient-to-br from-[#5f4114] to-[#c67e3a]', borderColor: '#5f4114' },
+    { name: 'Silver', range: [101, 300], icon: '/images/Badges/badge_silver.png', textColor: 'text-[#636363]', color: 'bg-gradient-to-br from-[#d0d0d0] to-[#4b4b4b]', borderColor: '#686868' },
+    { name: 'Gold', range: [301, 500], icon: '/images/Badges/badge_gold.png', textColor: 'text-[#A35100]', color: 'bg-gradient-to-br from-[#ffdb6f] to-[#c77d19]', borderColor: '#f69c34' },
+    { name: 'Platinum', range: [501, 700], icon: '/images/Badges/badge_platinium.png', textColor: 'text-[#5F5F5F]', color: 'bg-gradient-to-br from-[#aeaeae] to-[#696969]', borderColor: '#696969' },
+    { name: 'Unicorn', range: [701, 1000], icon: '/images/Badges/badge_unicorn.png', textColor: 'text-blue-400', color: 'bg-gradient-to-br from-[#1DD6FF] to-[#D21EFF]', borderColor: '#5046e9' },
   ];
 
   const fetchLocal = () => {
@@ -140,11 +140,11 @@ const Intro = () => {
             {/* Profile Info */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               {/* Profile Image Container */}
-              <div className="relative">
+              <div className={`w-[120px] h-[120px] md:w-[160px] md:h-[160px] relative flex rounded-full ${badgeColor}`}>
                 <img
-                  src={image || defaultImage}
+                  src={image || defaultImage} 
                   alt="Profile"
-                  className="w-[120px] h-[120px] md:w-[160px] md:h-[160px] rounded-full object-cover shadow-sm"
+                  className={`h-[95%] w-[95%] mx-auto my-auto rounded-full bg-white`}
                   onError={(e) => {
                     console.error("Error loading image");
                     e.target.src = defaultImage;
@@ -165,12 +165,8 @@ const Intro = () => {
                 <p className="text-gray-500 text-lg md:text-xl mb-2">Negotiator</p>
                 <h3 className="text-2xl md:text-3xl font-semibold text-gray-600">{fullName}</h3>
                 <button
-                  className="mt-4 px-4 py-2 w-full md:w-2/3 rounded-xl text-white"
-                  style={{
-                    background: badgeColor
-                  }}
+                  className={`mt-4 px-4 py-2 w-full md:w-2/3 rounded-xl text-white ${badgeColor}`}
                 >
-                  {/* <p className="text-lg md:text-xl ">Unicorn</p> */}
                   <p className="text-lg md:text-xl">{tiers.find(tier => data.points >= tier.range[0] && data.points <= tier.range[1])?.name || 'Unicorn'}</p>
                 </button>
               </div>

@@ -18,12 +18,12 @@ const ContestSummary = () => {
     };
 
     const tiers = [
-        { name: 'Bronze', range: [0, 100], icon: '/images/Badges/badge_bronze.png', textColor: 'text-[#764f26]', color: 'linear-gradient(to right, #5f4114, #c67e3a)', borderColor: '#5f4114' },
-        { name: 'Silver', range: [101, 300], icon: '/images/Badges/badge_silver.png', textColor: 'text-[#636363]', color: 'linear-gradient(to right, #d0d0d0, #4b4b4b)', borderColor: '#686868' },
-        { name: 'Gold', range: [301, 500], icon: '/images/Badges/badge_gold.png', textColor: 'text-[#A35100]', color: 'linear-gradient(to right, #ffdb6f, #c77d19)', borderColor: '#f69c34' },
-        { name: 'Platinum', range: [501, 700], icon: '/images/Badges/badge_platinium.png', textColor: 'text-[#5F5F5F]', color: 'linear-gradient(to right, #aeaeae, #696969)', borderColor: '#696969' },
-        { name: 'Unicorn', range: [701, 1000], icon: '/images/Badges/badge_unicorn.png', textColor: 'text-blue-400', color: 'linear-gradient(to right, #1DD6FF, #D21EFF)', borderColor: '#5046e9' },
-    ];
+        { name: 'Bronze', range: [0, 100], icon: '/images/Badges/badge_bronze.png', textColor: 'text-[#764f26]', color: 'bg-gradient-to-br from-[#5f4114] to-[#c67e3a]', borderColor: '#5f4114' },
+        { name: 'Silver', range: [101, 300], icon: '/images/Badges/badge_silver.png', textColor: 'text-[#636363]', color: 'bg-gradient-to-br from-[#d0d0d0] to-[#4b4b4b]', borderColor: '#686868' },
+        { name: 'Gold', range: [301, 500], icon: '/images/Badges/badge_gold.png', textColor: 'text-[#A35100]', color: 'bg-gradient-to-br from-[#ffdb6f] to-[#c77d19]', borderColor: '#f69c34' },
+        { name: 'Platinum', range: [501, 700], icon: '/images/Badges/badge_platinium.png', textColor: 'text-[#5F5F5F]', color: 'bg-gradient-to-br from-[#aeaeae] to-[#696969]', borderColor: '#696969' },
+        { name: 'Unicorn', range: [701, 1000], icon: '/images/Badges/badge_unicorn.png', textColor: 'text-blue-400', color: 'bg-gradient-to-br from-[#1DD6FF] to-[#D21EFF]', borderColor: '#5046e9' },
+      ];
 
     const [summary, setSummary] = useState(initialSummary);
     const [selectedPeriod, setSelectedPeriod] = useState(localStorage.getItem('frequency_salesagent'));
@@ -217,6 +217,28 @@ const ContestSummary = () => {
     const totalPrizes = summary?.totalPrizes || 0; // Fallback to 0 if null
     const prizes = summary?.prizes || []; // Fallback to an empty array if null
 
+    const getTierColor = (points) => {
+        console.log("POINTS => ", points)
+        let tierIndex = -1;
+        if (points >= 0 && points <= 100) {
+            tierIndex = 0;
+        } else if (points >= 101 && points <= 300) {
+            tierIndex = 1;
+        } else if (points >= 301 && points <= 500) {
+            tierIndex = 2;
+        } else if (points >= 501 && points <= 700) {
+            tierIndex = 3;
+        } else if (points >= 701 && points <= 1000) {
+            tierIndex = 4;
+        }
+
+        if (tierIndex !== -1) {
+            console.log("COLOR : ", tiers[tierIndex].color)
+            return tiers[tierIndex].color;
+        }
+        return 'transparent';
+    };
+
     return (
         <>
             <div className='w-auto mt-8 p-4 flex flex-col gap-[32px] mb-4'>
@@ -284,9 +306,13 @@ const ContestSummary = () => {
                         <div className='flex justify-center  bg-white rounded-lg shadow-sm order-2 border-2 border-gray-100 py-8'>
                             {contestants.map((contestant, index) => (
                                 <div key={index} className='flex flex-col items-center mx-4 '>
-                                    <div className='relative'>
-                                        <img src={contestant.avatar} alt={contestant.name} className='w-[173px] h-[173px] rounded-full' />
-                                        <div className='absolute top-32  left-24 w-[81px] h-[81px] rounded-full'>
+                                    <div className={`w-[120px] h-[120px] md:w-[160px] md:h-[160px] relative flex rounded-full ${getTierColor(contestant.points)}`}>
+                                        <img 
+                                            src={contestant.avatar} 
+                                            alt={contestant.name} 
+                                            className={`h-[95%] w-[95%] mx-auto my-auto bg-white rounded-full`} 
+                                        />
+                                        <div className='absolute top-32 left-24 w-[81px] h-[81px] rounded-full'>
                                             <img src={contestant.badgeColor} alt='Badge' className='w-full h-full object-cover rounded-full' />
                                         </div>
                                     </div>

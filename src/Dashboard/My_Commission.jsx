@@ -44,8 +44,9 @@ const My_Commission = () => {
         // const commission_Agent = localStorage.getItem('commission_salesagent');
         // setCommission(commission_Agent);
         const performanceTable = JSON.parse(localStorage.getItem('Performace Table')) || [];
+        console.log("Performance Table", performanceTable)
         const totalCommission = performanceTable.reduce((sum, item) => {
-            const commissionValue = parseFloat(item.commission.replace('$', '')) || 0;
+            const commissionValue = ((item.actual/item.target) * (parseFloat(item.commission.replace('$', '')))) || 0;
             return sum + commissionValue;
         }, 0);
         setCommission((totalCommission).toFixed(2));
@@ -256,9 +257,9 @@ const My_Commission = () => {
                             </div>
                             <div className="flex justify-between items-center mt-4">
                                 <p className="text-3xl font-semibold text-[#1E8675]">{currency}{totalCommission}</p>
-                                <p className="text-mm text-[#5F5E5E]">vs {currency}{totalCommission - lastMonthCommission} last month</p>
+                                <p className="text-mm text-[#5F5E5E]">vs {totalCommission - lastMonthCommission < 0 ? '-' + currency : currency}{Math.abs(totalCommission - lastMonthCommission)} last month</p>
                             </div>
-                            <div className="flex justify-evenly mt-12">
+                            <div className="flex justify-start mt-12">
                                 {buttons.map((label) => (
                                     <button
                                         key={label}

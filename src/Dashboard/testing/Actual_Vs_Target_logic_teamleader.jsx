@@ -100,11 +100,11 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
   }, [barIndex]);
 
   const formatYAxis = (value) => {
-    if (value === 0) return "£0";
+    if (value === 0) return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}0`;
     if (value >= 1000) {
-      return `£${value / 1000}k`;
+      return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}${value / 1000}K`;
     }
-    return `£${value}`;
+    return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}${value}`;
   };
 
   const toggleDropdown = () => {
@@ -129,7 +129,8 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
             fill="#059669"
             fontSize={12}
           >
-            £{value / 1000}k
+            {barIndex.barIndex === 8 || barIndex.barIndex === 10 ? `£` : ''}
+            {value < 1000 ? `${value}` : `${value / 1000}K`}
           </text>
         </g>
       );
@@ -208,7 +209,7 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
           tickFormatter={formatYAxis}
         />
         <Tooltip
-          formatter={(value) => `£${value.toLocaleString()}`}
+          formatter={(value) => `${(barIndex.barIndex === 8 || barIndex.barIndex === 10) ? ' £' : ''}${value.toLocaleString()}`}
           contentStyle={{
             backgroundColor: "white",
             border: "none",
@@ -246,7 +247,8 @@ const Actual_Vs_Target_logic_teamleader = (barIndex) => {
                   fontSize={12}
                   fontWeight="600"
                 >
-                  {value < 1000 ? `£${value}` : `£${value / 1000}K`}
+                  {barIndex.barIndex === 8 || barIndex.barIndex === 10 ? `£` : ''}
+                  {value < 1000 ? `${value}` : `${value / 1000}K`}
                 </text>
               </g>
             )}
