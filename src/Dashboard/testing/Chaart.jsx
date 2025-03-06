@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from "recharts";
 import { ChevronDown } from "lucide-react";
+import PoundSymbol from "../../components/PoundSymbol"; // Import the PoundSymbol component
 
 // Initial data
 const initialData = [
@@ -34,30 +35,42 @@ const monthMapping = {
   'december': 'Dec'
 };
 
-const CustomBarLabel = ({ x, y, width, value }) => {
-  return (
-    <text
-      x={x + width / 2}
-      y={y - 10}
-      fill="#4aa77c"
-      textAnchor="middle"
-      fontSize={14}
-      fontWeight={500}
-      stroke="white"
-      strokeWidth={2}
-      paintOrder="stroke"
-      filter="url(#shadow)"
-    >
-      £{value}
-    </text>
-  );
-};
-
 const Chart = () => {
   const [commissionMonth, setCommissionMonth] = useState('');
   const [commissionValue, setCommissionValue] = useState('');
   const [chartData, setChartData] = useState([]);
   const [userMonth, setUserMonth] = useState(JSON.parse(localStorage.getItem("Agents_KPI_Data")));
+  const [poundSymbol, setPoundSymbol] = useState(""); // State to store the extracted pound symbol
+  const poundSymbolRef = useRef(null); // Ref to access PoundSymbol component
+
+  // Custom bar label component that uses the extracted pound symbol
+  const CustomBarLabel = ({ x, y, width, value }) => {
+    return (
+      <text
+        x={x + width / 2}
+        y={y - 10}
+        fill="#4aa77c"
+        textAnchor="middle"
+        fontSize={14}
+        fontWeight={500}
+        stroke="white"
+        strokeWidth={2}
+        paintOrder="stroke"
+        filter="url(#shadow)"
+      >
+        {poundSymbol}{value}
+      </text>
+    );
+  };
+
+  // Extract pound symbol from PoundSymbol component
+  useEffect(() => {
+    if (poundSymbolRef.current) {
+      // Extract the text content from the span inside the PoundSymbol component
+      const symbolText = poundSymbolRef.current.textContent;
+      setPoundSymbol(symbolText);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = () => {
@@ -66,7 +79,7 @@ const Chart = () => {
 
       // Check if userMonth is not null before accessing its properties
       const month = userMonth && userMonth.month ? userMonth.month.replace(/^"|"$/g, '') : '';
-      const value = (managerRole === 'Negotiator')
+      const value = (managerRole === 'Negotiator' || "Team Leader")
         ? localStorage.getItem('CurrentCommission')
         : userMonth && userMonth.opportunity ? userMonth.opportunity.replace(/^"|"$/g, '') : '';
 
@@ -125,6 +138,13 @@ const Chart = () => {
 
   return (
     <div className="w-full p-6 bg-white rounded-xl">
+      {/* Hidden PoundSymbol component to extract the symbol */}
+      <div style={{ display: "none" }}>
+        <div ref={poundSymbolRef}>
+          <PoundSymbol />
+        </div>
+      </div>
+      
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-[#059669] text-xl font-semibold">Commission by month</h2>
         <div className="relative">
@@ -168,7 +188,7 @@ const Chart = () => {
                 fontSize: 16,
                 fontWeight: 500
               }}
-              tickFormatter={(value) => `£${value}`}
+              tickFormatter={(value) => `${poundSymbol}${value}`}
               domain={[0, 3000]}
               ticks={[0, 500, 1000, 1500, 2000, 2500, 3000]}
             />

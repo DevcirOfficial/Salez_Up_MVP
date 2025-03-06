@@ -1115,31 +1115,31 @@ const Commission = () => {
                 </tr>
               ) : (
                 <tr className="">
-                  <th className="  font-semibold    px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold    px-4 py-2 whitespace-nowrap text-center">
                     {/* Profile */}
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     Name
                   </th>
-                  <th className="  font-semibold   px-4 py-2 text-left whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     Surname
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     Team
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2  whitespace-nowrap text-center">
                     Team Leader
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     Commission
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     KPIs
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     Gatekeeper
                   </th>
-                  <th className="   font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">
+                  <th className="font-semibold   px-4 py-2 whitespace-nowrap text-center">
                     {/* Actions */}
                   </th>
                 </tr>

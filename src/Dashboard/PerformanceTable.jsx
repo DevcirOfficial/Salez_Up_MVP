@@ -9,6 +9,7 @@ import ConversionTable from './ConversionTable';
 import DialsTable from './DialsTable';
 import ProductivityTable from './ProductivityTable';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import PoundSymbol from '../components/PoundSymbol';
 
 const PerformanceTable = () => {
     const [performanceData, setPerformanceData] = useState([]);
@@ -171,9 +172,9 @@ const PerformanceTable = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `£${value}`;
+                return <><PoundSymbol />{value}</>;
             case 'Lettings Revenue':
-                return `£${value}`;
+                return <><PoundSymbol />{value}</>;
             default:
                 return `${value}`;
         }
@@ -324,7 +325,7 @@ const PerformanceTable = () => {
                                                                     </span>
                                                                 </td>
 
-                                                                <td className='py-2 text-center'>{row.commission.replace('$', '£')}</td>
+                                                                <td className='py-2 text-center'><PoundSymbol />{row.commission.replace('$', '')}</td>
                                                                 <td
                                                                     className={`px-6 py-1 text-center ${row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
                                                                         ? 'text-black'

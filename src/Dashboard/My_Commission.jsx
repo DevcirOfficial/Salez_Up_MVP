@@ -5,11 +5,11 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import Actual_Vs_Target_logic from "./testing/Actual_Vs_Target_logic";
 import Chart from './testing/Chaart';
+import PoundSymbol from '../components/PoundSymbol';
 
 const My_Commission = () => {
     const [activeButton, setActiveButton] = useState("Current Month");
     const [commission, setCommission] = useState('');
-    const [currency, setCurrency] = useState('£')
     const [allowedButton, setAllowedButton] = useState('');
     const [agents, setAgents] = useState([]);
     const [mainAgent, setMainAgent] = useState({})
@@ -256,8 +256,8 @@ const My_Commission = () => {
                                 </div>
                             </div>
                             <div className="flex justify-between items-center mt-4">
-                                <p className="text-3xl font-semibold text-[#1E8675]">{currency}{totalCommission}</p>
-                                <p className="text-mm text-[#5F5E5E]">vs {totalCommission - lastMonthCommission < 0 ? '-' + currency : currency}{Math.abs(totalCommission - lastMonthCommission)} last month</p>
+                                <p className="text-3xl font-semibold text-[#1E8675]"><PoundSymbol />{totalCommission}</p>
+                                <p className="text-mm text-[#5F5E5E]">vs {totalCommission - lastMonthCommission < 0 ? '-' : ''}<PoundSymbol />{Math.abs(totalCommission - lastMonthCommission)} last month</p>
                             </div>
                             <div className="flex justify-start mt-12">
                                 {buttons.map((label) => (
@@ -289,7 +289,7 @@ const My_Commission = () => {
                                             {item.name}
                                         </p>
                                         <p className="text-lg text-[#1E8675] font-semibold mb-1">
-                                            {item.name == 'Team Rank' ? item.amount : `£${item.amount}`}
+                                            {item.name === 'Team Rank' ? item.amount : <><PoundSymbol />{item.amount}</>}
                                         </p>
                                         <div className="w-24 h-24 mt-4 relative">
                                             <CircularProgressbar

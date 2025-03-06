@@ -233,7 +233,7 @@ const Navbar = () => {
                 </h1>
                 <p>{localStorage.getItem("userFName")}</p>
               </div>
-              <FaChevronDown className={`text-[22px] transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              {/* <FaChevronDown className={`text-[22px] transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} /> */}
             </button>
 
             {/* Dropdown Menu */}

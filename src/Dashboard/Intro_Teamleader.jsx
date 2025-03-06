@@ -315,7 +315,7 @@ const Intro_Teamleader = () => {
                 />
               </div>
               <p className="text-red-500 text-sm text-center">
-                  {member.role === 'Sales agent' ? 'Negotiator' : member.role}
+                  {member.role === 'Sales Agent' ? 'Negotiator' : member.role}
               </p>
               <p className="text-gray-700 text-sm text-center">{member.name}</p>
             </div>

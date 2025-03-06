@@ -5,6 +5,7 @@ import UnitsTable from './UnitsTable';
 import ConversionTable from './ConversionTable';
 import DialsTable from './DialsTable';
 import ProductivityTable from './ProductivityTable';
+import PoundSymbol from '../components/PoundSymbol';
 
 const PerformanceTable_Teamleader = () => {
     const [teamLeader, setTeamLeader] = useState(null);
@@ -47,8 +48,6 @@ const PerformanceTable_Teamleader = () => {
                         .then(data => {
                             setTeamLeader(data.team_and_team_leader);
                             setKpiData(JSON.parse(data.team_and_team_leader.kpi_data));
-                            // console.log("Performance: ", JSON.parse(data.team_and_team_leader.kpi_data).kpiData);
-                            localStorage.setItem("Performance_Table", JSON.stringify(JSON.parse(data.team_and_team_leader.kpi_data).kpiData))
                         })
                         .catch(err => console.error(err));
                 }
@@ -168,13 +167,36 @@ const PerformanceTable_Teamleader = () => {
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
             case 'Sales Revenue':
-                return `£${value}`;
+                return <><PoundSymbol />{value}</>;
             case 'Lettings Revenue':
-                return `£${value}`;
+                return <><PoundSymbol />{value}</>;
             default:
                 return `${value}`;
         }
     };
+
+    useEffect(() => {
+        if (teamLeader && kpiData) {
+            const performanceData = kpiData.kpiData.map((kpi, index) => {
+                const actual = aggregatedSums[index] || 0;
+                const target = allTargets[index] || 1;
+                const percentage = ((actual / target) * 100).toFixed(1);
+                return {
+                    kpi_Name: kpi.kpi_Name,
+                    target: target,
+                    actual: actual,
+                    percentage: percentage,
+                    opportunity: kpi.opportunity,
+                    gatekeeper: kpi.gatekeeper,
+                    gatekeeperTarget: kpi.gatekeeper || '-'
+                };
+            });
+
+            // Store performanceData in localStorage
+            localStorage.setItem('Performace Table', JSON.stringify(performanceData));
+            console.log(performanceData);
+        }
+    }, [allTargets, teamLeader, kpiData]);
 
     return (
         <div className="w-auto mt-8 p-4 flex flex-col gap-[32px] mb-4">
@@ -252,7 +274,6 @@ const PerformanceTable_Teamleader = () => {
                                             <tr key={index} className="text-sm">
                                                 <td className="py-2 text-[#269F8B] font-medium">{kpi.kpi_Name}</td>
                                                 <td className="py-2 text-center">{getFormattedValue(kpi.kpi_Name, target)}</td>
-                                                {/* <td className="py-2 text-center">{aggregatedSums[index]?.toFixed(2)}</td> */}
                                                 <td className="py-2 text-center">{getFormattedValue(kpi.kpi_Name, aggregatedSums[index]?.toFixed(0))}</td>
                                                 <td className="py-2 px text-center">
                                                     <span
@@ -265,7 +286,7 @@ const PerformanceTable_Teamleader = () => {
                                                     </span>
                                                 </td>
                                                 <td className="py-2 text-center">
-                                                    {kpiData.teamInfo.currency.replace('$', '£')}{kpi.opportunity.toFixed(1)}
+                                                    {kpiData.teamInfo.currency.replace('$', '')} <PoundSymbol />{kpi.opportunity.toFixed(1)}
                                                 </td>
                                                 <td className={`py-2 text-center ${kpi.gatekeeper ? 'text-black' : 'bg-gray-100'}`}>
                                                     {kpi.gatekeeper ? 'Yes' : 'N/A'}

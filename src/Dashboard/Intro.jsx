@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import fallbackImage from "/public/images/image_not_1.jfif";
+import PoundSymbol from '../components/PoundSymbol';
 
 const Intro = () => {
 
@@ -117,11 +118,11 @@ const Intro = () => {
 
   const stats = [
     { label: 'Points', value: `${data.points}`, icon: 'images/star.png', prefix: '' },
-    { label: 'Commission', value: `${commission}`, icon: 'images/bag.png', prefix: '£' },
-    { label: 'Contests', value: `${data.contests}`, icon: 'images/trophy.png', prefix: '£' },
+    { label: 'Commission', value: `${commission}`, icon: 'images/bag.png', prefix: <PoundSymbol /> },
+    { label: 'Contests', value: `${data.contests}`, icon: 'images/trophy.png', prefix: <PoundSymbol /> },
     { label: 'Rank', value: `${rank}`, icon: 'images/prizee.png', prefix: '' },
     { label: 'Time', value: `${data.timeStatsValue}`, icon: 'images/time.png', suffix: 'years' },
-    { label: 'This Month', value: `${data.monthStatsValue}`, icon: 'images/bag.png', prefix: '£' },
+    { label: 'This Month', value: `${data.monthStatsValue}`, icon: 'images/bag.png', prefix: <PoundSymbol /> },
   ];
 
   return (

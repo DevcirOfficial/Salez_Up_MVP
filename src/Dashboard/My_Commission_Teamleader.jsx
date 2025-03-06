@@ -5,11 +5,12 @@ import Chart from './testing/Chaart';
 import Actual_Vs_Target_logic_teamleader from './testing/Actual_Vs_Target_logic_teamleader';
 import fallbackImage from "/public/images/image_not_1.jfif";
 import Coke from "/public/images/coke.png";
+import PoundSymbol from '../components/PoundSymbol';
 
 const My_Commission_Teamleader = () => {
     const [activeButton, setActiveButton] = useState("Current Month");
     const [commission, setCommission] = useState('');
-    const [currency, setCurrency] = useState('£');
+    const [currency, setCurrency] = useState(<PoundSymbol />);
     const [allowedButton, setAllowedButton] = useState('');
     const [totalCommission, setTotalCommission] = useState(localStorage.getItem("Commission Data"));
     const [forecast, setForecast] = useState()
@@ -42,13 +43,13 @@ const My_Commission_Teamleader = () => {
 
     useEffect(() => {
         if (lastMonthCommission > 0) {
-            const difference = forecast - lastMonthCommission;
+            const difference = commission - lastMonthCommission;
             const percentageDifference = (difference / lastMonthCommission) * 100;
             setPercentageChange(percentageDifference.toFixed(2)); // Set percentage change
         } else {
             setPercentageChange(0);
         }
-    }, [forecast, lastMonthCommission]);
+    }, [commission, lastMonthCommission]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -77,11 +78,14 @@ const My_Commission_Teamleader = () => {
         const frequency = localStorage.getItem('frequency_salesagent');
         const performanceTable = JSON.parse(localStorage.getItem('Performace Table')) || [];
         const totalCommission = performanceTable.reduce((sum, item) => {
-            const commissionValue = parseFloat(item.commission.replace('$', '')) || 0;
+            const commissionValue = ((item.actual/item.target) * (parseFloat(item.opportunity))) || 0;
             return sum + commissionValue;
         }, 0);
         setCommission(totalCommission.toFixed(2));
+        console.log("DATA FOR TEAM LEADER: ", totalCommission.toFixed(2))
+        localStorage.setItem("CurrentCommission", (totalCommission).toFixed(2))
 
+        
         const frequencyToButton = {
             'Monthly': 'Current Month'
         };
@@ -116,8 +120,8 @@ const My_Commission_Teamleader = () => {
                         </div>
                         <div className="flex justify-between items-center mt-4">
                             {/* <p className="text-3xl font-semibold text-[#1E8675]">{currency}{parseFloat(totalCommission).toFixed(2)}</p> */}
-                            <p className="text-3xl font-semibold text-[#1E8675]">{currency}{forecast}</p>
-                            <p className="text-mm text-[#5F5E5E]">vs {totalCommission - lastMonthCommission < 0 ? '-' + currency : currency}{Math.abs(totalCommission - lastMonthCommission)} last month</p>
+                            <p className="text-3xl font-semibold text-[#1E8675]">{currency}{commission}</p>
+                            <p className="text-mm text-[#5F5E5E]">vs {totalCommission - lastMonthCommission < 0 ? '-' : ''}<PoundSymbol />{Math.abs(totalCommission - lastMonthCommission)} last month</p>
                         </div>
                         <div className="flex justify-start mt-12">
                             {buttons.map((label) => (
@@ -146,6 +150,7 @@ const My_Commission_Teamleader = () => {
                                     src={`https://crmapi.devcir.co/public/storage/${campaignImage}`}
                                     alt="Company Logo"
                                     className="w-full h-full object-cover"
+                                    onError={(e) => { e.target.onerror = null; e.target.src = fallbackImage; }}
                                 />
                             </div>
                             {/* <p className="text-2xl font-semibold text-[#009245]">${`${parseFloat(totalCommission).toFixed(2)}` || '3000'}</p> */}

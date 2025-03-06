@@ -6,6 +6,7 @@ import Agent_Ranking_chart from "./Agent_Ranking_chart";
 import noImage from '/images/image.jpg'
 import Actual_Vs_Target_logic_teamleader from "./testing/Actual_Vs_Target_logic_teamleader";
 import Forecast_Commission_logic_TeamLeader from "./testing/Forecast_Commission_logic_TeamLeader";
+import PoundSymbol from "../components/PoundSymbol";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -140,7 +141,7 @@ const RevenueTable_TeamLeader = (barIndex) => {
 
     useEffect(() => {
         const forcast_percentage2 = localStorage.getItem('forcast_percentage');
-        const performanceTable = JSON.parse(localStorage.getItem('Performance_Table'));
+        const performanceTable = JSON.parse(localStorage.getItem('Performace Table'));
         console.log("Performanc: ", (performanceTable));
         setCommission(performanceTable[barIndex.barIndex].opportunity)
         setForcast_Percentage(forcast_percentage2)
@@ -234,7 +235,7 @@ const RevenueTable_TeamLeader = (barIndex) => {
                     <div className="flex justify-between items-center mb-3">
                         <div>
                             <p className="text-lg text-[#009245]">Forecast Commission</p>
-                            <h2 className="text-xl font-bold text-green-600">£{((forcast_Percentage / 100) * commission).toFixed(1)}</h2>
+                            <h2 className="text-xl font-bold text-green-600"><PoundSymbol />{((forcast_Percentage / 100) * commission).toFixed(1)}</h2>
                         </div>
                         {/* <div className="flex items-center text-[#009245] font-medium">
                             <FaArrowUp className="mr-1" />

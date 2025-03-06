@@ -6,6 +6,7 @@ import Agent_Ranking_chart from "./Agent_Ranking_chart";
 import noImage from '/images/image.jpg'
 import Actual_Vs_Target_logic from "./testing/Actual_Vs_Target_logic";
 import Forecast_Commission_logic from "./testing/Forecast_Commission_logic";
+import PoundSymbol from "../components/PoundSymbol";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -225,7 +226,7 @@ const RevenueTable = ( barIndex ) => {
           <div className="flex justify-between items-center mb-3">
             <div>
               <p className="text-lg text-[#009245]">Forecast Commission</p>
-              <h2 className="text-xl font-bold text-green-600">£{isNaN((forcast_Percentage / 100) * mainAgent[0]?.commission) ? 0 : ((forcast_Percentage / 100) * mainAgent[0]?.commission).toFixed(1)}</h2>
+              <h2 className="text-xl font-bold text-green-600"><PoundSymbol />{isNaN((forcast_Percentage / 100) * mainAgent[0]?.commission) ? 0 : ((forcast_Percentage / 100) * mainAgent[0]?.commission).toFixed(1)}</h2>
             </div>
             {/* <div className="flex items-center text-[#009245] font-medium">
               <FaArrowUp className="mr-1" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ComposedChart,
   Bar,
@@ -9,6 +9,7 @@ import {
   Tooltip,
   LabelList,
 } from "recharts";
+import PoundSymbol from "../../components/PoundSymbol"; // Import the PoundSymbol component
 
 const Actual_Vs_Target_logic = (barIndex) => {
   const [chartData, setChartData] = useState([]);
@@ -18,6 +19,20 @@ const Actual_Vs_Target_logic = (barIndex) => {
   const [allAgentsPerformance, setAllAgensPerformance] = useState(JSON.parse(localStorage.getItem('Performace Table')));
   const [agentsTarget, setAgentsTarget] = useState(localStorage.getItem('TotalTargetAgents')?.split(',') || []);
   const [agentMonth, setAgentMonth] = useState(JSON.parse(localStorage.getItem('Agents_KPI_Data')));
+  const [poundSymbol, setPoundSymbol] = useState(""); // State to store the extracted pound symbol
+  const poundSymbolRef = useRef(null); // Ref to access PoundSymbol component
+
+  // Determine if pound symbol should be shown
+  const shouldShowPound = barIndex.barIndex === 8 || barIndex.barIndex === 10;
+
+  // Use effect to extract pound symbol from PoundSymbol component
+  useEffect(() => {
+    if (poundSymbolRef.current) {
+      // Extract the text content from the span inside the PoundSymbol component
+      const symbolText = poundSymbolRef.current.textContent;
+      setPoundSymbol(symbolText);
+    }
+  }, []);
 
   const initialData = [
     { month: "Jan", target: 10000, actual: 12000 },
@@ -98,12 +113,13 @@ const Actual_Vs_Target_logic = (barIndex) => {
     };
   }, []);
 
+  // Modified to format without handling pound symbol
   const formatYAxis = (value) => {
-    if (value === 0) return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}0`;
+    if (value === 0) return '0';
     if (value >= 1000) {
-      return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}${value / 1000}K`;
+      return `${value / 1000}K`;
     }
-    return `${barIndex.barIndex === 8 || barIndex.barIndex === 10 ? ' £' : ''}${value}`;
+    return `${value}`;
   };
 
   const toggleDropdown = () => {
@@ -128,8 +144,9 @@ const Actual_Vs_Target_logic = (barIndex) => {
             fill="#059669"
             fontSize={12}
           >
-            {barIndex.barIndex === 8 || barIndex.barIndex === 10 ? `£` : ''}
-            {value < 1000 ? `${value}` : `${value / 1000}K`}
+            {shouldShowPound ? 
+              `${poundSymbol}${value < 1000 ? value : (value / 1000) + 'K'}` : 
+              `${value < 1000 ? value : (value / 1000) + 'K'}`}
           </text>
         </g>
       );
@@ -139,6 +156,13 @@ const Actual_Vs_Target_logic = (barIndex) => {
 
   return (
     <div className="w-full p-4 rounded-lg shadow-lg bg-white">
+      {/* Hidden PoundSymbol component to extract the symbol */}
+      <div style={{ display: "none" }}>
+        <div ref={poundSymbolRef}>
+          <PoundSymbol />
+        </div>
+      </div>
+      
       <div className="flex justify-between items-center mb-2 relative">
         <h3 className="text-xl text-[#009245]">Actual vs Target</h3>
         <div className="flex items-center space-x-4">
@@ -205,10 +229,19 @@ const Actual_Vs_Target_logic = (barIndex) => {
           axisLine={false}
           tickLine={false}
           tick={{ fill: "#666" }}
-          tickFormatter={formatYAxis}
+          tickFormatter={(value) => {
+            // Use the extracted pound symbol
+            if (shouldShowPound) {
+              return `${poundSymbol}${formatYAxis(value)}`;
+            }
+            return formatYAxis(value);
+          }}
         />
         <Tooltip
-          formatter={(value) => `${(barIndex.barIndex === 8 || barIndex.barIndex === 10) ? ' £' : ''}${value.toLocaleString()}`}
+          formatter={(value, name) => {
+            // Use the extracted pound symbol for tooltip
+            return [shouldShowPound ? `${poundSymbol}${value.toLocaleString()}` : `${value.toLocaleString()}`, name];
+          }}
           contentStyle={{
             backgroundColor: "white",
             border: "none",
@@ -246,8 +279,9 @@ const Actual_Vs_Target_logic = (barIndex) => {
                   fontSize={12}
                   fontWeight="600"
                 >
-                  {barIndex.barIndex === 8 || barIndex.barIndex === 10 ? `£` : ''}
-                  {value < 1000 ? `${value}` : `${value / 1000}K`}
+                  {shouldShowPound ? 
+                    `${poundSymbol}${value < 1000 ? value : (value / 1000) + 'K'}` : 
+                    `${value < 1000 ? value : (value / 1000) + 'K'}`}
                 </text>
               </g>
             )}
